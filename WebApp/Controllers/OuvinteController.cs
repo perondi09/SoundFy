@@ -5,14 +5,17 @@ namespace WebApp.Controllers
 {
     public class OuvinteController : Controller
     {
-        ArtistaRepository artistaRepository = new ArtistaRepository();
-        OuvinteRepository ouvinteRepository = new OuvinteRepository();
-              
+         //Pagina de erro    
         public IActionResult Erro()
         {
             return View("Erro");
         }
+        
+       // Criação de objetos
+        ArtistaRepository artistaRepository = new ArtistaRepository();
+        OuvinteRepository ouvinteRepository = new OuvinteRepository();
 
+        // Retorno de view da pagina de ouvintes
         public IActionResult Index()
         {
             if (HttpContext.Session.GetString("logado") != "true")
@@ -22,6 +25,7 @@ namespace WebApp.Controllers
             return View(musicas);
         }
 
+        // Retorno de view para reproduzir uma música
         public IActionResult Reproduzir(int id)
         {
             if (HttpContext.Session.GetString("logado") != "true")
@@ -37,9 +41,10 @@ namespace WebApp.Controllers
 
             return View(musica);
         }
-        
+       
+        // Método para reproduzir o áudio da música 
         public IActionResult StreamAudio(int id)
-        {          
+        {
             byte[]? audioBytes = ouvinteRepository.ObterBytesMusicaPorId(id);
             if (audioBytes == null)
             {

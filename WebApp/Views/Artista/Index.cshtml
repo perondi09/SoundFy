@@ -30,9 +30,7 @@
                     <td>@musica.Ano</td>
                     <td>@musica.NomeArquivo</td>
                     <td>
-                        <a class="btn btn-danger btn-sm"
-                            href="@Url.Action("ExcluirMusica", "Artista", new { id = musica.Id })"
-                            onclick="return confirm('Tem certeza que deseja excluir esta música?');">
+                        <a href="@Url.Action("ExcluirMusica", "Artista", new { id = musica.Id })">
                             Excluir
                         </a>
                     </td>

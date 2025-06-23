@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +7,7 @@ namespace WebApp.Controllers
     {
         AdministradorRepository administradorRepository = new AdministradorRepository();
 
+        //Pagina inicial do administrador
         public IActionResult Index()
         {
             if (HttpContext.Session.GetString("logado") != "true")
@@ -20,6 +17,7 @@ namespace WebApp.Controllers
             return View(usuarios);
         }
 
+        //Metodo para excluir um usuario
         public IActionResult Excluir(int id)
         {
             if (HttpContext.Session.GetString("logado") != "true")
