@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    ViewData["Title"] = "Login";
+}
+
+@using (Html.BeginForm("Autenticar", "Login", FormMethod.Post))
+{
+    <div class="telas-inicias">
+
+        <h1>Login</h1>
+
+        <div class="input-telas-inicias">
+
+            <input type="email" id="email" name="email" required />
+
+            <input type="password" id="senha" name="senha" required />
+
+            <div class="captcha">
+                <label for="captcha">Digite o código:</label>
+                <span style="font-weight:bold; font-size:1.2em;">@ViewBag.Captcha</span>
+                <a href="@Url.Action("AtualizarCaptcha", "Login")" style="margin-left:10px;">Atualizar</a>
+                <input type="text" id="captcha" name="captcha" required maxlength="6" />
+            </div>
+
+            <div class="botoes-telas-inicias">
+                <button type="submit">Login</button>
+                <a href="@Url.Action("Index", "Registro")">Registrar</a>
+                <a href="@Url.Action("RecuperarConta")">Esqueceu a senha</a>
+            </div>
+        </div>
+    </div>
+
+
+    @if (ViewBag.Mensagem != null)
+    {
+        <div style="color: red;">
+            <p>@ViewBag.Mensagem</p>
+        </div>
+    }
+    @if (TempData["Mensagem"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Mensagem"]
+        </div>
+    }
+}

@@ -1,0 +1,40 @@
+﻿@model List<Data.Models.MusicaModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Músicas Cadastradas";
+}
+
+<link rel="stylesheet" href="~/css/pages/Ouvinte/index.css"/>
+
+<div class="exibicao-musicas">
+    <h3 class="text-white">Músicas cadastradas</h3>    
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Artista</th>
+            <th>Gênero</th>
+            <th>Ano</th>
+            <th>Arquivo</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var musica in Model)
+        {
+            <tr>
+                <td>@musica.Titulo</td>
+                <td>@musica.NomeArtista</td>
+                <td>@musica.Genero</td>
+                <td>@musica.Ano</td>
+                <td>@musica.NomeArquivo</td>
+                <td>
+                    <a class="btn btn-sm btn-outline-light"
+                        href="@Url.Action("Reproduzir", "Ouvinte", new { id = musica.Id })">
+                        Reproduzir
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</div>

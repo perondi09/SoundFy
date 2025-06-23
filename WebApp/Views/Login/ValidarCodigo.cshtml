@@ -1,0 +1,28 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    ViewData["Title"] = "Validação de Código";
+}
+
+@using (Html.BeginForm("ValidarCodigo", "Login", FormMethod.Post))
+{
+    <div class="telas-inicias">
+        <h1>Validação de Código</h1>
+        <p>
+            Para continuar, por favor, informe o código enviado para o seu email.
+        </p>
+
+        <input type="text" id="codigo" name="codigo" required />
+        
+        <div class="botoes-telas-inicias">
+            <button type="submit">Validar Código</button>
+            <a href="@Url.Action("Index", "Login")">Voltar</a>
+        </div>
+    </div>   
+}
+
+@if (ViewBag.Mensagem != null)
+{
+    <div class="alert alert-info mt-3" style="text-align:center;">
+        <p>@ViewBag.Mensagem</p>
+    </div>
+}

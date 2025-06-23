@@ -1,0 +1,30 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Adicionar Música";
+}
+
+<link rel="stylesheet" href="~/css/pages/Artista/index.css"/>
+
+<h2>Adicionar Música</h2>
+
+@if (ViewBag.Mensagem != null)
+{
+    <div class="alert alert-info">@ViewBag.Mensagem</div>
+}
+
+<form asp-action="CriarMusica" method="post" enctype="multipart/form-data">
+
+    <input type="text" class="form-control" id="titulo" name="titulo" required />
+
+    <input type="text" class="form-control" id="nomeArtista" name="nomeArtista" required />
+
+    <input type="text" class="form-control" id="genero" name="genero" />
+
+    <input type="number" class="form-control" id="ano" name="ano" />
+
+    <input type="text" class="form-control" id="nomeArquivo" name="nomeArquivo" required />
+
+    <input type="file" class="form-control" id="arquivo" name="arquivo" accept=".mp3" required />
+
+    <button type="submit">Adicionar</button>
+</form>

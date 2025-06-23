@@ -1,0 +1,21 @@
+@model Data.Models.MusicaModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Reproduzir Música";
+}
+
+<link rel="stylesheet" href="~/css/pages/Ouvinte/index.css"/>
+
+<h2>@Model.Titulo</h2>
+<p><strong>Artista:</strong> @Model.NomeArtista</p>
+<p><strong>Gênero:</strong> @Model.Genero</p>
+<p><strong>Ano:</strong> @Model.Ano</p>
+<p><strong>Arquivo:</strong> @Model.NomeArquivo</p>
+
+<audio controls class="reprodutor">
+    <source src="@Url.Action("StreamAudio", "Ouvinte", new { id = Model.Id })" type="audio/mpeg" />
+    Seu navegador não suporta o elemento de áudio.
+</audio>
+
+<a href="@Url.Action("Index", "Ouvinte")">Voltar</a>
