@@ -1,9 +1,8 @@
 using Business.Utilities;
 using Data.Config;
+using Data.Models;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
-using Data.Models;
-
 
 namespace Data.Repository
 {

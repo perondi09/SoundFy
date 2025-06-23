@@ -1,0 +1,39 @@
+@model List<Data.Models.UsuarioModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Administrador";
+}
+
+<link rel="stylesheet" href="~/css/pages/Administrador/administrador.css" />
+
+<div class="exibir-usuarios">
+    <h1>Lista de usuários</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Tipo</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in Model)
+            {
+                <tr>
+                    <td>@usuario.Id</td>
+                    <td>@usuario.Email</td>
+                    <td>@usuario.Tipo</td>
+                    <td>
+                         <a class="btn btn-danger btn-sm"
+                            href="@Url.Action("Excluir", "Administrador", new { id = usuario.Id })"
+                            onclick="return confirm('Tem certeza que deseja excluir este usuário?');">
+                            Excluir
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

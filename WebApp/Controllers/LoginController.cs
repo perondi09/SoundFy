@@ -1,7 +1,6 @@
 ﻿using Business.Utilities;
+using Data.Repository;
 using Microsoft.AspNetCore.Mvc;
-using SoundFy.Data;
-using Microsoft.AspNetCore.Http;
 
 namespace SoundFy.Controllers
 {
@@ -52,7 +51,19 @@ namespace SoundFy.Controllers
                 return View("Index");
             }
 
-            if (usuarioRepository.ValidarUsuario(email, senha))
+            var tipoUsuario = usuarioRepository.ObterTipoUsuario(email);
+           
+            if (tipoUsuario == null)
+            {
+                var adminRepo = new AdministradorRepository();
+                if (adminRepo.ValidarAdministrador(email, senha))
+                {
+                    HttpContext.Session.SetString("logado", "true");
+                    HttpContext.Session.SetString("tipoUsuario", "Administrador");
+                    return RedirectToAction("Index", "Administrador");
+                }
+            }
+            else if (usuarioRepository.ValidarUsuario(email, senha))
             {
                 var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "IP desconhecido";
                 var navegador = Request.Headers["User-Agent"].ToString();
@@ -60,9 +71,6 @@ namespace SoundFy.Controllers
                 emails.EnviarEmailLogin(email, ip, navegador);
 
                 HttpContext.Session.SetString("logado", "true");
-
-
-                var tipoUsuario = usuarioRepository.ObterTipoUsuario(email);
                 HttpContext.Session.SetString("tipoUsuario", tipoUsuario ?? "");
 
                 if (tipoUsuario == "Ouvinte")
@@ -75,19 +83,15 @@ namespace SoundFy.Controllers
                 }
                 else
                 {
-                    // Tipo não reconhecido, volta para login
                     ViewBag.Mensagem = "Tipo de usuário não reconhecido.";
                     GerarCaptcha();
                     return View("Index", "Login");
                 }
+            }
 
-            }
-            else
-            {
-                ViewBag.Mensagem = "E-mail ou senha inválidos.";
-                GerarCaptcha();
-                return View("Index", "Login");
-            }
+            ViewBag.Mensagem = "E-mail ou senha inválidos.";
+            GerarCaptcha();
+            return View("Index", "Login");
         }
 
         //Retorno de view a pagina de recuperar senha

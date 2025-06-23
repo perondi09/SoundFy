@@ -1,9 +1,10 @@
-﻿using Microsoft.Data.Sqlite;
-using Business.Utilities;
+﻿using Business.Utilities;
 using Data.Config;
+using Data.Models;
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
-namespace SoundFy.Data
 
+namespace Data.Repository
 {
     public class UsuarioRepository
     {

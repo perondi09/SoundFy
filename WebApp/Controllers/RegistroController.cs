@@ -1,6 +1,6 @@
 ﻿using Business.Utilities;
+using Data.Repository;
 using Microsoft.AspNetCore.Mvc;
-using SoundFy.Data;
 
 namespace SoundFy.Controllers
 {
