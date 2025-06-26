@@ -26,15 +26,15 @@ namespace Data.Repository
         }
 
         //Metodo para adcionar musicas
-        public bool AdicionarMusica(string titulo, string nomeArtista, string genero, int ano, string nomeArquivo, byte[] arquivo)
+        public bool AdicionarMusica(string titulo, string nomeArtista, string genero, int ano, string nomeArquivo, byte[] arquivo, int Usuario_Id)
         {
             try
             {
                 using var conexao = new SqliteConnection(caminhoBanco);
                 conexao.Open();
 
-                string insertSql = "INSERT INTO Musica (Titulo, NomeArtista, Genero, Ano, NomeArquivo, Arquivo) " +
-                                   "VALUES (@Titulo, @NomeArtista, @Genero, @Ano, @NomeArquivo, @Arquivo)";
+                string insertSql = "INSERT INTO Musica (Titulo, NomeArtista, Genero, Ano, NomeArquivo, Arquivo, Usuario_Id) " +
+                                   "VALUES (@Titulo, @NomeArtista, @Genero, @Ano, @NomeArquivo, @Arquivo, @Usuario_Id)";
                 using var cmd = new SqliteCommand(insertSql, conexao);
                 cmd.Parameters.AddWithValue("@Titulo", titulo);
                 cmd.Parameters.AddWithValue("@NomeArtista", nomeArtista);
@@ -42,6 +42,7 @@ namespace Data.Repository
                 cmd.Parameters.AddWithValue("@Ano", ano);
                 cmd.Parameters.AddWithValue("@NomeArquivo", nomeArquivo);
                 cmd.Parameters.AddWithValue("@Arquivo", arquivo ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@Usuario_Id", Usuario_Id);
                 cmd.ExecuteNonQuery();
 
                 return true;
@@ -127,6 +128,32 @@ namespace Data.Repository
                 Console.WriteLine($"Erro geral: {ex.Message}");
                 return false;
             }
+        }
+
+        public List<MusicaModel> ListarMusicasPorUsuario(int usuarioId)
+        {
+            var musicas = new List<MusicaModel>();
+            using var conexao = new SqliteConnection(caminhoBanco);
+            conexao.Open();
+
+            string selectSql = "SELECT Id, Titulo, NomeArtista, Genero, Ano, NomeArquivo FROM Musica WHERE Usuario_Id = @Usuario_Id";
+            using var cmd = new SqliteCommand(selectSql, conexao);
+            cmd.Parameters.AddWithValue("@Usuario_Id", usuarioId);
+
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                musicas.Add(new MusicaModel
+                {
+                    Id = reader.GetInt32(0),
+                    Titulo = reader.GetString(1),
+                    NomeArtista = reader.GetString(2),
+                    Genero = reader.GetString(3),
+                    Ano = reader.GetInt32(4),
+                    NomeArquivo = reader.GetString(5)
+                });
+            }
+            return musicas;
         }
     }
 }

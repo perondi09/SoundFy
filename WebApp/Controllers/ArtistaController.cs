@@ -20,10 +20,16 @@ namespace WebApp.Controllers
             if (HttpContext.Session.GetString("logado") != "true")
                 return RedirectToAction("Index", "Login");
 
-            var musicas = artistaRepository.ListarMusicas();
-            return View(musicas); ;
-        }
+            int? usuarioId = HttpContext.Session.GetInt32("IdArtista");
+            if (usuarioId == null)
+            {
+                TempData["Mensagem"] = "Sessão expirada. Faça login novamente.";
+                return RedirectToAction("Index", "Login");
+            }
 
+            var musicas = artistaRepository.ListarMusicasPorUsuario(usuarioId.Value);
+            return View(musicas);
+        }
         //Pagina para adicionar musicas
         [HttpGet]
         public IActionResult AdicionarMusica()
@@ -40,6 +46,12 @@ namespace WebApp.Controllers
         {
             if (HttpContext.Session.GetString("logado") != "true")
                 return RedirectToAction("Index", "Login");
+            int? Usuario_Id = HttpContext.Session.GetInt32("IdArtista");
+            if (Usuario_Id == null)
+            {
+                TempData["Mensagem"] = "Sessão expirada. Faça login novamente.";
+                return RedirectToAction("Index", "Login");
+            }
 
             if (arquivo == null || arquivo.Length == 0)
             {
@@ -51,7 +63,10 @@ namespace WebApp.Controllers
             arquivo.CopyTo(memoryStream);
             byte[] arquivoBytes = memoryStream.ToArray();
 
-            bool sucesso = artistaRepository.AdicionarMusica(titulo, nomeArtista, genero, ano, arquivo.FileName, arquivoBytes);
+
+            bool sucesso = artistaRepository.AdicionarMusica(
+                titulo, nomeArtista, genero, ano, arquivo.FileName, arquivoBytes, Usuario_Id.Value);
+
             if (sucesso)
             {
                 TempData["Mensagem"] = "Música adicionada com sucesso!";
@@ -79,6 +94,7 @@ namespace WebApp.Controllers
                 TempData["MensagemErro"] = "Erro ao excluir música.";
 
             return RedirectToAction("Index");
-        }   
+        }
+
     }
 }

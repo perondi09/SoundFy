@@ -78,7 +78,11 @@ namespace SoundFy.Controllers
                     return RedirectToAction("Index", "Ouvinte");
                 }
                 else if (tipoUsuario == "Artista")
-                {
+                {                   
+                    var usuario = usuarioRepository.ObterUsuarioPorEmail(email);
+                    if (usuario != null)
+                        HttpContext.Session.SetInt32("IdArtista", usuario.Id);
+
                     return RedirectToAction("Index", "Artista");
                 }
                 else

@@ -10,7 +10,7 @@ namespace Data.Repository
     {
 
         // Criação da instancia do EmailUltilities para enviar emails
-        private readonly EmailUltilities emails = new EmailUltilities();       
+        private readonly EmailUltilities emails = new EmailUltilities();
 
         // Caminho do banco de dados
         private readonly string caminhoBanco;
@@ -100,6 +100,30 @@ namespace Data.Repository
             if (reader.Read())
                 return reader["Tipo"].ToString();
 
+            return null;
+        }  
+
+        // Obtém o usuário completo baseado no email  
+        public UsuarioModel? ObterUsuarioPorEmail(string email)
+        {
+            using var conexao = new SqliteConnection(caminhoBanco);
+            conexao.Open();
+
+            string selectSql = "SELECT Id, Email, Senha, Tipo FROM Usuario WHERE Email = @Email";
+            using var cmd = new SqliteCommand(selectSql, conexao);
+            cmd.Parameters.AddWithValue("@Email", email);
+
+            using var reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                return new UsuarioModel
+                {
+                    Id = reader.GetInt32(0),
+                    Email = reader.GetString(1),
+                    Senha = reader.GetString(2),
+                    Tipo = reader.GetString(3)
+                };
+            }
             return null;
         }
     }
