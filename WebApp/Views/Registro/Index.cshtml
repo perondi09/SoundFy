@@ -8,28 +8,29 @@
     <div class="telas-inicias">
         <h1>Registrar</h1>
 
-        <input type="email" id="email" name="email" required placeholder="Email"/>
+        <div class="input-telas-inicias">
+            <input type="email" id="email" name="email" required placeholder="Email" />
+            <input type="password" id="senha" name="senha" required placeholder="Senha" />
 
-        <input type="password" id="senha" name="senha" required placeholder="Senha"/>
-
-        <div class="tipo-usuario">
-            <label for="tipo">Tipo de Usuário:</label>
-            <select id="tipo" name="tipo" required>
-                <option value="Ouvinte">Ouvinte</option>
-                <option value="Artista">Artista</option>
-            </select>
+            <div class="tipo-usuario">
+                <label for="tipo">Tipo de Usuário:</label>
+                <select id="tipo" name="tipo" required>
+                    <option value="Ouvinte">Ouvinte</option>
+                    <option value="Artista">Artista</option>
+                </select>
+            </div>
         </div>
-        
+
         <div class="botoes-telas-inicias">
             <button type="submit">Registrar</button>
             <a href="@Url.Action("Index", "Login")">Voltar</a>
         </div>
-    </div>
 
-    @if (ViewBag.Mensagem != null)
-    {
-        <div class="alert alert-info mt-3" style="text-align:center;">
-            <p>@ViewBag.Mensagem</p>
-        </div>
-    }
+        @if (ViewBag.Mensagem != null)
+        {
+            <div class="alert alert-info">
+                <p>@ViewBag.Mensagem</p>
+            </div>
+        }
+    </div>
 }

@@ -7,22 +7,22 @@
 {
     <div class="telas-inicias">
         <h1>Validação de Código</h1>
-        <p>
-            Para continuar, por favor, informe o código enviado para o seu email.
-        </p>
+        <p>Para continuar, por favor, informe o código enviado para o seu email.</p>
 
-        <input type="text" id="codigo" name="codigo" required placeholder="Código de validação" />
+        <div class="input-telas-inicias">
+            <input type="text" id="codigo" name="codigo" required placeholder="Código de validação" />
+        </div>
 
         <div class="botoes-telas-inicias">
             <button type="submit">Validar Código</button>
             <a href="@Url.Action("Index", "Login")">Voltar</a>
         </div>
-    </div>   
-}
 
-@if (ViewBag.Mensagem != null)
-{
-    <div class="alert alert-info mt-3" style="text-align:center;">
-        <p>@ViewBag.Mensagem</p>
+        @if (ViewBag.Mensagem != null)
+        {
+            <div class="alert alert-info">
+                <p>@ViewBag.Mensagem</p>
+            </div>
+        }
     </div>
 }

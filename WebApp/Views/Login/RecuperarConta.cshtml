@@ -7,22 +7,22 @@
 {
     <div class="telas-inicias">
         <h1>Recuperar Conta</h1>
-        <p>
-            Digite seu email para receber um link de recuperação.
-        </p>
+        <p>Digite seu email para receber um link de recuperação.</p>
 
-        <input type="email" id="email" name="email" required placeholder="Email"/>
+        <div class="input-telas-inicias">
+            <input type="email" id="email" name="email" required placeholder="Email" />
+        </div>
 
         <div class="botoes-telas-inicias">
             <button type="submit">Enviar email</button>
             <a href="@Url.Action("Index", "Login")">Voltar para o login</a>
         </div>
-    </div>
-}
 
-@if (ViewBag.Mensagem != null)
-{
-    <div class="alert alert-info mt-3" style="text-align:center;">
-        <p>@ViewBag.Mensagem</p>
+        @if (ViewBag.Mensagem != null)
+        {
+            <div class="alert alert-info">
+                <p>@ViewBag.Mensagem</p>
+            </div>
+        }
     </div>
 }

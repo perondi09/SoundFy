@@ -3,28 +3,27 @@
     ViewBag.Title = "Adicionar Música";
 }
 
-<link rel="stylesheet" href="~/css/pages/Artista/index.css"/>
+<link rel="stylesheet" href="~/css/pages/Artista/adicionarmusica.css" />
 
-<h2>Adicionar Música</h2>
+<div class="telas-inicias">
+    <h1>Adicionar Música</h1>
 
-@if (ViewBag.Mensagem != null)
-{
-    <div class="alert alert-info">@ViewBag.Mensagem</div>
-}
+    @if (ViewBag.Mensagem != null)
+    {
+        <div class="alert alert-info">@ViewBag.Mensagem</div>
+    }
 
-<form asp-action="CriarMusica" method="post" enctype="multipart/form-data">
+    <form asp-action="CriarMusica" method="post" enctype="multipart/form-data" class="input-telas-inicias">
+        <input type="text" id="titulo" name="titulo" required placeholder="Título da Música" />
+        <input type="text" id="nomeArtista" name="nomeArtista" required placeholder="Nome do Artista" />
+        <input type="text" id="genero" name="genero" placeholder="Gênero" />
+        <input type="number" id="ano" name="ano" placeholder="Ano" />
+        <input type="text" id="nomeArquivo" name="nomeArquivo" required placeholder="Nome do Arquivo" />
+        <input type="file" id="arquivo" name="arquivo" accept=".mp3" required />
 
-    <input type="text" class="form-control" id="titulo" name="titulo" required />
-
-    <input type="text" class="form-control" id="nomeArtista" name="nomeArtista" required />
-
-    <input type="text" class="form-control" id="genero" name="genero" />
-
-    <input type="number" class="form-control" id="ano" name="ano" />
-
-    <input type="text" class="form-control" id="nomeArquivo" name="nomeArquivo" required />
-
-    <input type="file" class="form-control" id="arquivo" name="arquivo" accept=".mp3" required />
-
-    <button type="submit">Adicionar</button>
-</form>
+        <div class="botoes-telas-inicias">
+            <button type="submit">Adicionar</button>
+            <a href="@Url.Action("Index", "Artista")">Voltar</a>
+        </div>
+    </form>
+</div>

@@ -9,7 +9,7 @@
 
 <div class="exibir-usuarios">
     <h1>Lista de usuários</h1>
-    <table>
+    <table class="tabela-usuarios">
         <thead>
             <tr>
                 <th>Id</th>
@@ -26,7 +26,9 @@
                     <td>@usuario.Email</td>
                     <td>@usuario.Tipo</td>
                     <td>
-                         <a href="@Url.Action("Excluir", "Administrador", new { id = usuario.Id })">
+                        <a class="botao-excluir"
+                           href="@Url.Action("Excluir", "Administrador", new { id = usuario.Id })"
+                           onclick="return confirm('Tem certeza que deseja excluir este usuário?');">
                             Excluir
                         </a>
                     </td>
