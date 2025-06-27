@@ -13,7 +13,7 @@
 
             <input type="email" id="email" name="email" required placeholder="Email" />
 
-            <input type="password" id="senha" name="senha" required placeholder="Senha"/>
+            <input type="password" id="senha" name="senha" required placeholder="Senha" />
 
             <div class="captcha">
                 <label for="captcha">Digite o código:</label>
@@ -23,7 +23,7 @@
             </div>
 
             <div class="botoes-telas-inicias">
-                <button type="submit">Login</button>
+                <button type="submit" onclick="return login()">Login</button>
                 <a href="@Url.Action("Index", "Registro")">Registrar</a>
                 <a href="@Url.Action("RecuperarConta")">Esqueceu a senha</a>
             </div>
@@ -44,3 +44,5 @@
         </div>
     }
 }
+
+<script src="~/js/site.js"></script>

@@ -1,4 +1,9 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function login() {
+    var email = document.getElementById("email").value;
+    var senha = document.getElementById("senha").value;
 
-// Write your JavaScript code.
+    if (email === "" || senha === "") {
+        alert("Preencha todos os campos.");
+        return false;
+    }
+}
