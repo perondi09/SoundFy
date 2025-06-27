@@ -1,4 +1,4 @@
-@model List<Data.Models.UsuarioModel>
+@model List<WebApp.ViewModel.UsuarioViewModel>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,9 +12,7 @@
     <table class="tabela-usuarios">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Tipo</th>
+            <th>Tipo</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -26,9 +24,8 @@
                     <td>@usuario.Email</td>
                     <td>@usuario.Tipo</td>
                     <td>
-                        <a class="botao-excluir"
-                           href="@Url.Action("Excluir", "Administrador", new { id = usuario.Id })"
-                           onclick="return confirm('Tem certeza que deseja excluir este usuário?');">
+                        <a class="botao-excluir" href="@Url.Action("Excluir", "Administrador", new { id = usuario.Id })"
+                            onclick="return confirm('Tem certeza que deseja excluir este usuário?');">
                             Excluir
                         </a>
                     </td>

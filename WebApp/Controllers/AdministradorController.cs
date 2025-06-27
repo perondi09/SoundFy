@@ -1,5 +1,6 @@
 using Data.Repository;
 using Microsoft.AspNetCore.Mvc;
+using WebApp.ViewModel;
 
 namespace WebApp.Controllers
 {
@@ -13,8 +14,20 @@ namespace WebApp.Controllers
             if (HttpContext.Session.GetString("logado") != "true")
                 return RedirectToAction("Index", "Login");
 
-            var usuarios = administradorRepository.ListarUsuarios();
-            return View(usuarios);
+            var usuariosVm = new List<UsuarioViewModel>();
+            var usuariosModel = administradorRepository.ListarUsuarios();
+
+            foreach (var usuario in usuariosModel)
+            {
+                usuariosVm.Add(new UsuarioViewModel
+                {
+                    Id = usuario.Id,
+                    Email = usuario.Email,
+                    Tipo = usuario.Tipo
+                });
+            }
+
+            return View(usuariosVm);
         }
 
         //Metodo para excluir um usuario
