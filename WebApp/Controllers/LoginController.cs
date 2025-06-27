@@ -20,7 +20,7 @@ namespace SoundFy.Controllers
         private void GerarCaptcha()
         {
             var random = new Random();
-            string captcha = random.Next(100000, 999999).ToString();
+            string captcha = random.Next(000000, 999999).ToString();
             HttpContext.Session.SetString("CaptchaLogin", captcha);
             ViewBag.Captcha = captcha;
         }
