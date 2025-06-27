@@ -3,3 +3,5 @@ function validarEmail(email) {
     return re.test(email);
 }
 alert("Util.js loaded successfully");
+
+//Teste merge alterei meu arquivo localmente
