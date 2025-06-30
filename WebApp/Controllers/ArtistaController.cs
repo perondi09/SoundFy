@@ -1,5 +1,6 @@
 ﻿using Data.Repository;
 using Microsoft.AspNetCore.Mvc;
+using WebApp.ViewModel;
 
 namespace WebApp.Controllers
 {
@@ -13,6 +14,7 @@ namespace WebApp.Controllers
 
         // Criação da instancia do ArtistaRepository para manipular músicas
         ArtistaRepository artistaRepository = new ArtistaRepository();
+        MusicaRepository musicaRepository = new MusicaRepository();
 
         //Login com sessao
         public IActionResult Index()
@@ -27,9 +29,25 @@ namespace WebApp.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var musicas = artistaRepository.ListarMusicasPorUsuario(usuarioId.Value);
-            return View(musicas);
+            var musicas = musicaRepository.ListarMusicas();
+            var musicasVm = new List<MusicaViewModel>();
+
+            foreach (var musica in musicas)
+            {
+                musicasVm.Add(new MusicaViewModel
+                {
+                    Id = musica.Id,
+                    Titulo = musica.Titulo,
+                    NomeArtista = musica.NomeArtista,
+                    Genero = musica.Genero,
+                    Ano = musica.Ano,
+                    NomeArquivo = musica.NomeArquivo
+                });
+            }
+
+            return View(musicasVm);
         }
+
         //Pagina para adicionar musicas
         [HttpGet]
         public IActionResult AdicionarMusica()
@@ -64,7 +82,7 @@ namespace WebApp.Controllers
             byte[] arquivoBytes = memoryStream.ToArray();
 
 
-            bool sucesso = artistaRepository.AdicionarMusica(
+            bool sucesso = musicaRepository.AdicionarMusica(
                 titulo, nomeArtista, genero, ano, arquivo.FileName, arquivoBytes, Usuario_Id.Value);
 
             if (sucesso)
@@ -86,7 +104,7 @@ namespace WebApp.Controllers
             if (HttpContext.Session.GetString("logado") != "true")
                 return RedirectToAction("Index", "Login");
 
-            var sucesso = artistaRepository.ExcluirMusicaPorId(id);
+            var sucesso = musicaRepository.ExcluirMusicaPorId(id);
 
             if (sucesso)
                 TempData["Mensagem"] = "Música excluída com sucesso!";
