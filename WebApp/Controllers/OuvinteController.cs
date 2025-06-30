@@ -1,32 +1,27 @@
-﻿using Data.Repository;
+﻿using Data.Models;
+using Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.ViewModel;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApp.Controllers
 {
     public class OuvinteController : Controller
-    {
-         //Pagina de erro    
-        public IActionResult Erro()
-        {
-            return View("Erro");
-        }
-        
+    {     
        // Criação de objetos
         ArtistaRepository artistaRepository = new ArtistaRepository();
         OuvinteRepository ouvinteRepository = new OuvinteRepository();
         MusicaRepository musicaRepository = new MusicaRepository();
 
-        // Retorno de view da pagina de ouvintes
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("logado") != "true")
+            if (HttpContext.Session == null || HttpContext.Session.GetString("logado") != "true")
                 return RedirectToAction("Index", "Login");
 
-            var musicas = musicaRepository.ListarMusicas();
             var musicasVm = new List<MusicaViewModel>();
+            var musicasModel = musicaRepository.ListarMusicas();
 
-            foreach (var musica in musicas)
+            foreach (var musica in musicasModel)
             {
                 musicasVm.Add(new MusicaViewModel
                 {
@@ -40,7 +35,7 @@ namespace WebApp.Controllers
             }
 
             return View(musicasVm);
-        }
+        }        
 
         // Retorno de view para reproduzir uma música
         public IActionResult Reproduzir(int id)

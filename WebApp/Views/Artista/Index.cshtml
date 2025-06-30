@@ -10,20 +10,20 @@
 <div class="exibicao-musicas">
     <h3>Músicas cadastradas</h3>
     <div class="card-grid">
-        @foreach (var musica in Model)
+        @foreach (var musicas in Model)
         {
             <div class="musica-card">
                 <div class="musica-capa">                    
                 </div>
                 <div class="musica-info">
-                    <h4>@musica.Titulo</h4>
-                    <p><strong>Artista:</strong> @musica.NomeArtista</p>
-                    <p><strong>Gênero:</strong> @musica.Genero</p>
-                    <p><strong>Ano:</strong> @musica.Ano</p>
-                    <p><strong>Arquivo:</strong> @musica.NomeArquivo</p>
+                    <h4>@musicas.Titulo</h4>
+                    <p><strong>Artista:</strong> @musicas.NomeArtista</p>
+                    <p><strong>Gênero:</strong> @musicas.Genero</p>
+                    <p><strong>Ano:</strong> @musicas.Ano</p>
+                    <p><strong>Arquivo:</strong> @musicas.NomeArquivo</p>
                 </div>
                 <a class="botao-reproduzir"
-                   href="@Url.Action("ExcluirMusica", "Artista", new { id = musica.Id })"
+                   href="@Url.Action("ExcluirMusica", "Artista", new { id = musicas.Id })"
                    onclick="return confirm('Tem certeza que deseja excluir esta música?');">
                     Excluir
                 </a>

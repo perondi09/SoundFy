@@ -5,13 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace SoundFy.Controllers
 {
     public class LoginController : Controller
-    {
-        // Pagina de erro
-        public IActionResult Erro()
-        {
-            return View("Erro");
-        }
-
+    {  
         //Criação de objetos
         UsuarioRepository usuarioRepository = new UsuarioRepository();
         EmailUltilities emails = new EmailUltilities();
@@ -20,7 +14,7 @@ namespace SoundFy.Controllers
         private void GerarCaptcha()
         {
             var random = new Random();
-            string captcha = random.Next(000000, 999999).ToString();
+            string captcha = random.Next(100000, 999999).ToString();
             HttpContext.Session.SetString("CaptchaLogin", captcha);
             ViewBag.Captcha = captcha;
         }

@@ -5,17 +5,22 @@
     ViewBag.Title = "Reproduzir Música";
 }
 
-<link rel="stylesheet" href="~/css/pages/Ouvinte/reproduzir.css"/>
+<link rel="stylesheet" href="~/css/pages/Ouvinte/reproduzir.css" />
 
-<h2>@Model.Titulo</h2>
-<p><strong>Artista:</strong> @Model.NomeArtista</p>
-<p><strong>Gênero:</strong> @Model.Genero</p>
-<p><strong>Ano:</strong> @Model.Ano</p>
-<p><strong>Arquivo:</strong> @Model.NomeArquivo</p>
+<div class="reproduzir-musica">
+    <h1>@Model.Titulo</h1>
 
-<audio controls class="reprodutor">
-    <source src="@Url.Action("StreamAudio", "Ouvinte", new { id = Model.Id })" type="audio/mpeg" />
-    Seu navegador não suporta o elemento de áudio.
-</audio>
+    <div class="info-musica">
+        <p><strong>Artista:</strong> @Model.NomeArtista</p>
+        <p><strong>Gênero:</strong> @Model.Genero</p>
+        <p><strong>Ano:</strong> @Model.Ano</p>
+        <p><strong>Arquivo:</strong> @Model.NomeArquivo</p>
+    </div>
 
-<a href="@Url.Action("Index", "Ouvinte")">Voltar</a>
+    <audio controls class="reprodutor" preload="metadata">
+        <source src="@Url.Action("StreamAudio", "Ouvinte", new { id = Model.Id })" type="audio/mpeg" />
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+
+    <a href="@Url.Action("Index", "Ouvinte")" class="botao-voltar">Voltar</a>
+</div>

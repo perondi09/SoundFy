@@ -25,28 +25,28 @@ namespace Data.Repository
         {
             try
             {
+                var musicas = new List<MusicaModel>();
                 using var conexao = new SqliteConnection(caminhoBanco);
                 conexao.Open();
 
                 string selectSql = "SELECT * FROM Musica";
                 using var cmd = new SqliteCommand(selectSql, conexao);
                 using var reader = cmd.ExecuteReader();
-
-                var musicas = new List<MusicaModel>();
                 while (reader.Read())
                 {
-                    var musica = new MusicaModel
+                    musicas.Add(new MusicaModel
                     {
-                        Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                        Titulo = reader.GetString(reader.GetOrdinal("Titulo")),
-                        NomeArtista = reader.GetString(reader.GetOrdinal("NomeArtista")),
-                        Genero = reader.GetString(reader.GetOrdinal("Genero")),
-                        Ano = reader.GetInt32(reader.GetOrdinal("Ano")),
-                        NomeArquivo = reader.GetString(reader.GetOrdinal("NomeArquivo")),
-                        Usuario_Id = reader.GetInt32(reader.GetOrdinal("Usuario_Id"))
-                    };
-                    musicas.Add(musica);
+                        Id = reader.IsDBNull(reader.GetOrdinal("Id")) ? 0 : reader.GetInt32(reader.GetOrdinal("Id")),
+                        Titulo = reader.IsDBNull(reader.GetOrdinal("Titulo")) ? string.Empty : reader.GetString(reader.GetOrdinal("Titulo")),
+                        NomeArtista = reader.IsDBNull(reader.GetOrdinal("NomeArtista")) ? string.Empty : reader.GetString(reader.GetOrdinal("NomeArtista")),
+                        Genero = reader.IsDBNull(reader.GetOrdinal("Genero")) ? string.Empty : reader.GetString(reader.GetOrdinal("Genero")),
+                        Ano = reader.IsDBNull(reader.GetOrdinal("Ano")) ? 0 : reader.GetInt32(reader.GetOrdinal("Ano")),
+                        NomeArquivo = reader.IsDBNull(reader.GetOrdinal("NomeArquivo")) ? string.Empty : reader.GetString(reader.GetOrdinal("NomeArquivo")),
+                        Arquivo = reader.IsDBNull(reader.GetOrdinal("Arquivo")) ? Array.Empty<byte>() : (byte[])reader["Arquivo"],
+                        Usuario_Id = reader.IsDBNull(reader.GetOrdinal("Usuario_Id")) ? 0 : reader.GetInt32(reader.GetOrdinal("Usuario_Id"))
+                    });
                 }
+
                 return musicas;
             }
             catch (Exception ex)
@@ -89,7 +89,7 @@ namespace Data.Repository
                 return false;
             }
         }
-   
+
         //Metodo para excluir musicas
         public bool ExcluirMusicaPorId(int id)
         {

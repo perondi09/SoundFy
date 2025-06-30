@@ -5,12 +5,7 @@ using WebApp.ViewModel;
 namespace WebApp.Controllers
 {
     public class ArtistaController : Controller
-    {
-        // Pagina de erro
-        public IActionResult Erro()
-        {
-            return View("Erro");
-        }
+    {      
 
         // Criação da instancia do ArtistaRepository para manipular músicas
         ArtistaRepository artistaRepository = new ArtistaRepository();
@@ -29,7 +24,7 @@ namespace WebApp.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var musicas = musicaRepository.ListarMusicas();
+            var musicas = artistaRepository.ListarMusicasPorUsuario(usuarioId.Value);
             var musicasVm = new List<MusicaViewModel>();
 
             foreach (var musica in musicas)
