@@ -1,4 +1,5 @@
-﻿using Business.Utilities;
+﻿using Business;
+using Business.Utilities;
 using Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +9,7 @@ namespace SoundFy.Controllers
     {
         //Criação de objetos
         UsuarioRepository usuarioRepository = new UsuarioRepository();
-        EmailUltilities emails = new EmailUltilities();
+        EmailBusiness emails = new EmailBusiness();
 
         // Gera um captcha de 6 dígitos e salva na sessão
         private void GerarCaptcha()
@@ -59,12 +60,13 @@ namespace SoundFy.Controllers
             }
             else if (usuarioRepository.ValidarUsuario(email, senha))
             {
-                try                
+                try
                 {
-                    throw new Exception("Mensagem de erro aqui");
-                    string corpo = CriarCorpoEmailLoginValidado();
-                    emails.EnviarEmailGenerico(email, "Confirmação de Login - SoundFy", corpo);
+                    var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "IP desconhecido";
+                    var navegador = Request.Headers["User-Agent"].ToString();
+                    var corpo = UsuarioBusiness.CriarCorpoLogin(ip, navegador, DateTime.Now);
 
+                    emails.EnviarEmailGenerico(email, "Confirmação de Login - SoundFy", corpo);
                 }
 
                 catch
@@ -122,7 +124,14 @@ namespace SoundFy.Controllers
         {
             if (usuarioRepository.ValidaUsuarioExistente(email))
             {
-                emails.EnviarCodigoRecuperacao(email);
+                string codigoVerificacao = new Random().Next(100000, 999999).ToString();
+
+                HttpContext.Session.SetString("CodigoVerificacao", codigoVerificacao);
+                HttpContext.Session.SetString("EmailRecuperacao", email);
+
+                string corpo = UsuarioBusiness.CriarCorpoRecuperacao(codigoVerificacao);
+
+                emails.EnviarEmailGenerico(email, "Confirmação de Login - SoundFy", corpo);
                 ViewBag.Mensagem = "Um e-mail de recuperação foi enviado para você.";
             }
             else
@@ -142,8 +151,8 @@ namespace SoundFy.Controllers
         [HttpPost]
         public IActionResult ValidarCodigo(string codigo)
         {
-
-            if (emails.ValidarCodigoRecuperacao(codigo))
+            string codigoSessao = HttpContext.Session.GetString("CodigoVerificacao");
+            if (codigo == codigoSessao)
             {
                 return RedirectToAction("Index", "PaginaInicial");
             }

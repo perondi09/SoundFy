@@ -1,4 +1,5 @@
-﻿using Business.Utilities;
+﻿using Business;
+using Business.Utilities;
 using Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +9,7 @@ namespace SoundFy.Controllers
     {
         //Criação de objetos
         UsuarioRepository usuarioRepository = new UsuarioRepository();
-        EmailUltilities emails = new EmailUltilities();       
+        EmailBusiness emails = new EmailBusiness();
 
         // Método para retornar a view de registro
         public IActionResult Index()
@@ -35,15 +36,13 @@ namespace SoundFy.Controllers
             return View("Index");
         }
 
-        // Método para enviar o e-mail de confirmação
+        //Método para enviar o e-mail de confirmação
         [HttpGet]
         public IActionResult ConfirmarEmail(string email)
         {
-            var confirmado = usuarioRepository.ConfirmarEmail(email);
+            string corpo = UsuarioBusiness.CriarCorporegistro();
 
-            TempData["Mensagem"] = confirmado
-                ? "E-mail confirmado com sucesso!"
-                : "Erro ao confirmar e-mail.";
+            emails.EnviarEmailGenerico(email, "Confirmação de Login - SoundFy", corpo);
 
             return RedirectToAction("Index", "Login");
         }

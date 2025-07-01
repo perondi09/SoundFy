@@ -90,7 +90,7 @@ namespace Data.Repository
             }
         }
 
-        //Metodo para excluir musicas
+        //Metodo para excluir musica
         public bool ExcluirMusicaPorId(int id)
         {
             try

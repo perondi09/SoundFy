@@ -7,10 +7,7 @@ using Microsoft.Extensions.Configuration;
 namespace Data.Repository
 {
     public class AdministradorRepository
-    {
-        // Criação da instancia do EmailUltilities para enviar emails
-        private readonly EmailUltilities emails = new EmailUltilities();
-
+    {   
         // Caminho do banco de dados
         private readonly string caminhoBanco;
 

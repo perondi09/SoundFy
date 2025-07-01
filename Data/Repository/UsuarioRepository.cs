@@ -7,10 +7,7 @@ using Microsoft.Extensions.Configuration;
 namespace Data.Repository
 {
     public class UsuarioRepository
-    {
-
-        // Criação da instancia do EmailUltilities para enviar emails
-        private readonly EmailUltilities emails = new EmailUltilities();
+    {       
 
         // Caminho do banco de dados
         private readonly string caminhoBanco;
@@ -68,9 +65,7 @@ namespace Data.Repository
                 cmd.Parameters.AddWithValue("@Senha", senha);
                 cmd.Parameters.AddWithValue("@Tipo", tipo);
 
-                cmd.ExecuteNonQuery();
-
-                new EmailUltilities().EnviarEmailConfirmacao(email);
+                cmd.ExecuteNonQuery();          
 
                 return true;
             }
