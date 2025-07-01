@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace SoundFy.Controllers
 {
     public class LoginController : Controller
-    {  
+    {
         //Criação de objetos
         UsuarioRepository usuarioRepository = new UsuarioRepository();
         EmailUltilities emails = new EmailUltilities();
@@ -46,7 +46,7 @@ namespace SoundFy.Controllers
             }
 
             var tipoUsuario = usuarioRepository.ObterTipoUsuario(email);
-           
+
             if (tipoUsuario == null)
             {
                 var adminRepo = new AdministradorRepository();
@@ -59,10 +59,18 @@ namespace SoundFy.Controllers
             }
             else if (usuarioRepository.ValidarUsuario(email, senha))
             {
-                var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "IP desconhecido";
-                var navegador = Request.Headers["User-Agent"].ToString();
+                try                
+                {
+                    throw new Exception("Mensagem de erro aqui");
+                    string corpo = CriarCorpoEmailLoginValidado();
+                    emails.EnviarEmailGenerico(email, "Confirmação de Login - SoundFy", corpo);
 
-                emails.EnviarEmailLogin(email, ip, navegador);
+                }
+
+                catch
+                {
+
+                }
 
                 HttpContext.Session.SetString("logado", "true");
                 HttpContext.Session.SetString("tipoUsuario", tipoUsuario ?? "");
@@ -72,7 +80,7 @@ namespace SoundFy.Controllers
                     return RedirectToAction("Index", "Ouvinte");
                 }
                 else if (tipoUsuario == "Artista")
-                {                   
+                {
                     var usuario = usuarioRepository.ObterUsuarioPorEmail(email);
                     if (usuario != null)
                         HttpContext.Session.SetInt32("IdArtista", usuario.Id);
@@ -90,6 +98,16 @@ namespace SoundFy.Controllers
             ViewBag.Mensagem = "E-mail ou senha inválidos.";
             GerarCaptcha();
             return View("Index", "Login");
+        }
+
+        private string CriarCorpoEmailLoginValidado()
+        {
+            var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "IP desconhecido";
+            var navegador = Request.Headers["User-Agent"].ToString();
+
+            string dataHora = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+            string corpo = $"Seu login foi realizado com sucesso em {dataHora}.\nIP de acesso: {ip}\nNavegador: {navegador}";
+            return corpo;
         }
 
         //Retorno de view a pagina de recuperar senha

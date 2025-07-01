@@ -40,23 +40,28 @@ namespace Business.Utilities
             {
                 Console.WriteLine($"Erro ao enviar e-mail: {ex.Message}");
             }
-        }
+        } 
 
-        //Metodo para confimar email ao logar
-        public bool ConfirmarEmail(string email)
+        public void EnviarEmailGenerico(string destinatario, string assunto, string corpo)
         {
-            using (var conexao = new SqliteConnection(caminhoBanco))
+            try
             {
-                conexao.Open();
-
-                string sql = "UPDATE Usuario SET EmailConfirmado = 1 WHERE Email = @Email";
-                using (var cmd = new SqliteCommand(sql, conexao))
+                using (var smtpClient = CriarSmtpClient())
                 {
-                    cmd.Parameters.AddWithValue("@Email", email);
-                    return cmd.ExecuteNonQuery() > 0;
+                    var mensagem = new MailMessage("nao-responda@soundfy.com", destinatario)
+                    {
+                        Subject = assunto,
+                        Body = corpo
+                    };
+                    smtpClient.Send(mensagem);
                 }
             }
-        }
+            catch (Exception)
+            {
+                throw;
+            }
+        }     
+   
 
         //Metodo para enviar email de confirmação ao criar conta
         public void EnviarEmailConfirmacao(string email)
@@ -99,6 +104,11 @@ namespace Business.Utilities
                 return true;
             }
             return false;
+        }
+
+        public void CriarCorpoEmail(string corpo)
+        {
+            throw new NotImplementedException();
         }
     }
 }

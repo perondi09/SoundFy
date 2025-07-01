@@ -20,7 +20,13 @@ namespace WebApp.Controllers
 
             var musicasVm = new List<MusicaViewModel>();
             var musicasModel = musicaRepository.ListarMusicas();
+            MapMusicasModelParaMusicasViewModel(musicasVm, musicasModel);
 
+            return View(musicasVm);
+        }
+
+        private static void MapMusicasModelParaMusicasViewModel(List<MusicaViewModel> musicasVm, List<MusicaModel> musicasModel)
+        {
             foreach (var musica in musicasModel)
             {
                 musicasVm.Add(new MusicaViewModel
@@ -33,9 +39,7 @@ namespace WebApp.Controllers
                     NomeArquivo = musica.NomeArquivo
                 });
             }
-
-            return View(musicasVm);
-        }        
+        }
 
         // Retorno de view para reproduzir uma música
         public IActionResult Reproduzir(int id)
