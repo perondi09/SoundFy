@@ -1,6 +1,4 @@
 ﻿using Business;
-using Business.Utilities;
-using Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SoundFy.Controllers
@@ -8,7 +6,7 @@ namespace SoundFy.Controllers
     public class RegistroController : Controller
     {
         //Criação de objetos
-        UsuarioRepository usuarioRepository = new UsuarioRepository();
+        UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
         EmailBusiness emails = new EmailBusiness();
 
         // Método para retornar a view de registro
@@ -21,13 +19,13 @@ namespace SoundFy.Controllers
         [HttpPost]
         public IActionResult Registrar(string email, string senha, string tipo)
         {
-            if (usuarioRepository.ValidaUsuarioExistente(email))
+            if (usuarioBusiness.ValidarSeUsuarioExiste(email))
             {
                 ViewBag.Mensagem = "Usuário já cadastrado.";
                 return View("Index");
             }
 
-            if (usuarioRepository.RegistrarUsuario(email, senha, tipo))
+            if (usuarioBusiness.RegistrarUsuario(email, senha, tipo))
             {
                 return RedirectToAction("Index", "Login");
             }

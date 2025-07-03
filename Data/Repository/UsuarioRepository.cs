@@ -1,5 +1,4 @@
-﻿using Business.Utilities;
-using Data.Config;
+﻿using Data.Config;
 using Data.Models;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
@@ -121,20 +120,6 @@ namespace Data.Repository
             }
             return null;
         }
-   
-        public bool ConfirmarEmail(string email)
-        {
-            using (var conexao = new SqliteConnection(caminhoBanco))
-            {
-                conexao.Open();
-
-                string sql = "UPDATE Usuario SET EmailConfirmado = 1 WHERE Email = @Email";
-                using (var cmd = new SqliteCommand(sql, conexao))
-                {
-                    cmd.Parameters.AddWithValue("@Email", email);
-                    return cmd.ExecuteNonQuery() > 0;
-                }
-            }
-        }
+ 
     }
 }
