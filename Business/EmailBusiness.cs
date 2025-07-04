@@ -1,6 +1,6 @@
 using System.Net.Mail;
 
-namespace Business.Utilities
+namespace Business
 {
     public class EmailBusiness
     {

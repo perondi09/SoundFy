@@ -1,17 +1,14 @@
-﻿using Data.Models;
-using Data.Repository;
+﻿using Business.Properties;
+using Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.ViewModel;
-using Microsoft.AspNetCore.Http;
 
 namespace WebApp.Controllers
 {
     public class OuvinteController : Controller
-    {     
-       // Criação de objetos
-        ArtistaRepository artistaRepository = new ArtistaRepository();
-        OuvinteRepository ouvinteRepository = new OuvinteRepository();
-        MusicaRepository musicaRepository = new MusicaRepository();
+    {
+        // Criação de objetos
+        OuvinteBusiness ouvinteBusiness = new OuvinteBusiness();
 
         public IActionResult Index()
         {
@@ -19,7 +16,7 @@ namespace WebApp.Controllers
                 return RedirectToAction("Index", "Login");
 
             var musicasVm = new List<MusicaViewModel>();
-            var musicasModel = musicaRepository.ListarMusicas();
+            var musicasModel = ouvinteBusiness.ListarMusicas();
             MapMusicasModelParaMusicasViewModel(musicasVm, musicasModel);
 
             return View(musicasVm);
@@ -47,7 +44,7 @@ namespace WebApp.Controllers
             if (HttpContext.Session.GetString("logado") != "true")
                 return RedirectToAction("Index", "Login");
 
-            var musicas = musicaRepository.ListarMusicas();
+            var musicas = ouvinteBusiness.ListarMusicas();
             var musica = musicas.FirstOrDefault(m => m.Id == id);
 
             if (musica == null)
@@ -57,11 +54,11 @@ namespace WebApp.Controllers
 
             return View(musica);
         }
-       
+
         // Método para reproduzir o áudio da música 
         public IActionResult StreamAudio(int id)
         {
-            byte[]? audioBytes = ouvinteRepository.ObterBytesMusicaPorId(id);
+            byte[]? audioBytes = ouvinteBusiness.ObterBytesMusicaPorId(id);
             if (audioBytes == null)
             {
                 return NotFound();

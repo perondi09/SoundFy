@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 using Data.BancoDeDados;
+=======
+using Data.Config;
+>>>>>>> 8ead8e9e4cd55d59a14497d41aa31da90884a682
 using Microsoft.Data.Sqlite;
 
 namespace Data.Repository

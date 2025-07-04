@@ -1,15 +1,15 @@
-﻿using Data.Repository;
+﻿using Business;
+using Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.ViewModel;
 
 namespace WebApp.Controllers
 {
     public class ArtistaController : Controller
-    {      
+    {
 
         // Criação da instancia do ArtistaRepository para manipular músicas
-        ArtistaRepository artistaRepository = new ArtistaRepository();
-        MusicaRepository musicaRepository = new MusicaRepository();
+        ArtistaBusiness artistaBusiness = new ArtistaBusiness();
 
         //Login com sessao
         public IActionResult Index()
@@ -24,7 +24,7 @@ namespace WebApp.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var musicas = artistaRepository.ListarMusicasPorUsuario(usuarioId.Value);
+            var musicas = artistaBusiness.ListarMusicasPorArtista(usuarioId.Value);
             var musicasVm = new List<MusicaViewModel>();
 
             foreach (var musica in musicas)
@@ -77,7 +77,7 @@ namespace WebApp.Controllers
             byte[] arquivoBytes = memoryStream.ToArray();
 
 
-            bool sucesso = musicaRepository.AdicionarMusica(
+            bool sucesso = artistaBusiness.AdicionarMusica(
                 titulo, nomeArtista, genero, ano, arquivo.FileName, arquivoBytes, Usuario_Id.Value);
 
             if (sucesso)
@@ -99,7 +99,7 @@ namespace WebApp.Controllers
             if (HttpContext.Session.GetString("logado") != "true")
                 return RedirectToAction("Index", "Login");
 
-            var sucesso = musicaRepository.ExcluirMusicaPorId(id);
+            var sucesso = artistaBusiness.ExcluirMusicaPorId(id);
 
             if (sucesso)
                 TempData["Mensagem"] = "Música excluída com sucesso!";

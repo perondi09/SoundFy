@@ -1,5 +1,4 @@
 ﻿using Business;
-using Business.Utilities;
 using Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,8 +7,9 @@ namespace SoundFy.Controllers
     public class LoginController : Controller
     {
         //Criação de objetos
-        UsuarioRepository usuarioRepository = new UsuarioRepository();
+        UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
         EmailBusiness emails = new EmailBusiness();
+        AdiministradorBusiness adiministradorBusiness = new AdiministradorBusiness();
 
         // Gera um captcha de 6 dígitos e salva na sessão
         private void GerarCaptcha()
@@ -46,19 +46,18 @@ namespace SoundFy.Controllers
                 return View("Index");
             }
 
-            var tipoUsuario = usuarioRepository.ObterTipoUsuario(email);
+            var tipoUsuario = usuarioBusiness.ObtemTipoUsuario(email);
 
             if (tipoUsuario == null)
-            {
-                var adminRepo = new AdministradorRepository();
-                if (adminRepo.ValidarAdministrador(email, senha))
+            {                
+                if (adiministradorBusiness.ValidarSeUsuarioExiste(email, senha))
                 {
                     HttpContext.Session.SetString("logado", "true");
                     HttpContext.Session.SetString("tipoUsuario", "Administrador");
                     return RedirectToAction("Index", "Administrador");
                 }
             }
-            else if (usuarioRepository.ValidarUsuario(email, senha))
+            else if (usuarioBusiness.ValidarUsuario(email, senha))
             {
                 try
                 {
@@ -83,7 +82,7 @@ namespace SoundFy.Controllers
                 }
                 else if (tipoUsuario == "Artista")
                 {
-                    var usuario = usuarioRepository.ObterUsuarioPorEmail(email);
+                    var usuario = usuarioBusiness.ObterUsuarioPorEmail(email);
                     if (usuario != null)
                         HttpContext.Session.SetInt32("IdArtista", usuario.Id);
 
@@ -112,7 +111,7 @@ namespace SoundFy.Controllers
         [HttpPost]
         public IActionResult RecuperarConta(string email)
         {
-            if (usuarioRepository.ValidaUsuarioExistente(email))
+            if (usuarioBusiness.ValidarSeUsuarioExiste(email))
             {
                 string codigoVerificacao = new Random().Next(100000, 999999).ToString();
 
