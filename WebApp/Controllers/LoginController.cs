@@ -9,6 +9,7 @@ namespace SoundFy.Controllers
         //Criação de objetos
         UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
         EmailBusiness emails = new EmailBusiness();
+        AdiministradorBusiness adiministradorBusiness = new AdiministradorBusiness();
 
         // Gera um captcha de 6 dígitos e salva na sessão
         private void GerarCaptcha()
@@ -48,9 +49,8 @@ namespace SoundFy.Controllers
             var tipoUsuario = usuarioBusiness.ObtemTipoUsuario(email);
 
             if (tipoUsuario == null)
-            {
-                var adminRepo = new AdministradorRepository();
-                if (adminRepo.ValidarAdministrador(email, senha))
+            {                
+                if (adiministradorBusiness.ValidarSeUsuarioExiste(email, senha))
                 {
                     HttpContext.Session.SetString("logado", "true");
                     HttpContext.Session.SetString("tipoUsuario", "Administrador");

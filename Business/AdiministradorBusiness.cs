@@ -14,6 +14,11 @@ namespace Business
         public List<Data.Models.UsuarioModel> ListarUsuariosPeloId()
         {
             return AdmRepo.ListarUsuarios();
-        }      
+        }
+
+        public bool ValidarSeUsuarioExiste(string email, string senha)
+        {
+            return AdmRepo.ValidarAdministrador(email, senha);
+        }       
     }
 }
