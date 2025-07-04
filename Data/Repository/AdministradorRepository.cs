@@ -1,30 +1,23 @@
-using Business.Utilities;
-using Data.Config;
+using Data.BancoDeDados;
 using Data.Models;
 using Microsoft.Data.Sqlite;
-using Microsoft.Extensions.Configuration;
 
 namespace Data.Repository
 {
     public class AdministradorRepository
     {   
         // Caminho do banco de dados
-        private readonly string caminhoBanco;
+        private readonly string _caminhoBanco;
 
-        // Construtor que carrega configurações do banco de dados
         public AdministradorRepository()
         {
-            IConfigurationRoot config = ConfigHelper.LoadConfiguration();
-            string caminhoArquivo = config.GetSection("DataSettings:ConexaoBanco").Value
-                                    ?? throw new InvalidOperationException("ConexaoBanco não encontrada nas configurações.");
-
-            caminhoBanco = $"Data Source={caminhoArquivo}";
+            _caminhoBanco = ConexaoBanco.ObterStringConexao();
         }
 
         //Metodo para validar administrador
         public bool ValidarAdministrador(string email, string senha)
         {
-            using var conexao = new SqliteConnection(caminhoBanco);
+            using var conexao = new SqliteConnection(_caminhoBanco);
             conexao.Open();
 
             string selectSql = "SELECT * FROM Administrador WHERE Email = @Email AND Senha = @Senha";
@@ -41,7 +34,7 @@ namespace Data.Repository
         {
             try
             {
-                using var conexao = new SqliteConnection(caminhoBanco);
+                using var conexao = new SqliteConnection(_caminhoBanco);
                 conexao.Open();
 
                 string deleteSql = "DELETE FROM Usuario WHERE Id = @Id";
@@ -60,7 +53,7 @@ namespace Data.Repository
         public List<UsuarioModel> ListarUsuarios()
         {
             var usuarios = new List<UsuarioModel>();
-            using var conexao = new SqliteConnection(caminhoBanco);
+            using var conexao = new SqliteConnection(_caminhoBanco);
             conexao.Open();
 
             string selectSql = "SELECT Id, Email, Senha, Tipo FROM Usuario";

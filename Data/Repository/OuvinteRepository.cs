@@ -1,30 +1,22 @@
-using Business.Utilities;
-using Data.Config;
-using Data.Models;
+using Data.BancoDeDados;
 using Microsoft.Data.Sqlite;
-using Microsoft.Extensions.Configuration;
 
 namespace Data.Repository
 {
     public class OuvinteRepository
     {      
         // Caminho do banco de dados
-        private readonly string caminhoBanco;
+        private readonly string _caminhoBanco;
 
-        // Construtor que carrega configurações do banco de dados
         public OuvinteRepository()
         {
-            IConfigurationRoot config = ConfigHelper.LoadConfiguration();
-            string caminhoArquivo = config.GetSection("DataSettings:ConexaoBanco").Value
-                                    ?? throw new InvalidOperationException("ConexaoBanco não encontrada nas configurações.");
-
-            caminhoBanco = $"Data Source={caminhoArquivo}";
+            _caminhoBanco = ConexaoBanco.ObterStringConexao();
         }
 
         // Método para obter os bytes de uma música pelo ID
         public byte[]? ObterBytesMusicaPorId(int id)
         {
-            using var conexao = new SqliteConnection(caminhoBanco);
+            using var conexao = new SqliteConnection(_caminhoBanco);
             conexao.Open();
 
             string selectSql = "SELECT Arquivo FROM Musica WHERE Id = @Id";

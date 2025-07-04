@@ -6,16 +6,8 @@ namespace Business
         {
             return $@"
             Seu login foi realizado com sucesso em {dataHora:dd/MM/yyyy HH:mm:ss}.
-            IP de acesso: {ip}
+            IP: {ip}
             Navegador: {navegador}";
-        }
-
-        public static string CriarCorpoRecuperacao(string codigo)
-        {
-            return $@"
-            Você solicitou a recuperação de sua conta.
-            Seu código de verificação é: {codigo}
-            Se você não solicitou, ignore este e-mail.";
         }
 
         public static string CriarCorporegistro()
@@ -23,5 +15,12 @@ namespace Business
             return $@"
             Seja bem vindo ao SoundFy.";            
         }
+
+        public static string CriarCorpoRecuperacao(string codigo)
+        {
+            return $@"
+            Você solicitou a recuperação de sua conta.
+            Seu código de verificação é: {codigo}";
+        }       
     }
 }

@@ -27,11 +27,10 @@ namespace Business.Utilities
                     smtpClient.Send(mensagem);
                 }
             }
-            catch (SmtpException ex)
+            catch (Exception ex)
             {
-                throw new Exception("Erro ao enviar e-mail: " + ex.Message);
+                Console.WriteLine($"Ocorreu um erro ao enviar email. {ex.Message}");
             }
         }
-
     }
 }

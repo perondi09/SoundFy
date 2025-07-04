@@ -1,23 +1,18 @@
-using Data.Config;
+using Data.BancoDeDados;
 using Data.Models;
 using Microsoft.Data.Sqlite;
-using Microsoft.Extensions.Configuration;
 
 namespace Data.Repository
 {
     public class MusicaRepository
     {
+        
         // Caminho do banco de dados
-        private readonly string caminhoBanco;
+        private readonly string _caminhoBanco;
 
-        // Construtor que carrega configurações do banco de dados
         public MusicaRepository()
         {
-            IConfigurationRoot config = ConfigHelper.LoadConfiguration();
-            string caminhoArquivo = config.GetSection("DataSettings:ConexaoBanco").Value
-                                    ?? throw new InvalidOperationException("ConexaoBanco não encontrada nas configurações.");
-
-            caminhoBanco = $"Data Source={caminhoArquivo}";
+            _caminhoBanco = ConexaoBanco.ObterStringConexao();
         }
 
         // Metodo para listar musicas
@@ -26,7 +21,7 @@ namespace Data.Repository
             try
             {
                 var musicas = new List<MusicaModel>();
-                using var conexao = new SqliteConnection(caminhoBanco);
+                using var conexao = new SqliteConnection(_caminhoBanco);
                 conexao.Open();
 
                 string selectSql = "SELECT * FROM Musica";
@@ -61,7 +56,7 @@ namespace Data.Repository
         {
             try
             {
-                using var conexao = new SqliteConnection(caminhoBanco);
+                using var conexao = new SqliteConnection(_caminhoBanco);
                 conexao.Open();
 
                 string insertSql = "INSERT INTO Musica (Titulo, NomeArtista, Genero, Ano, NomeArquivo, Arquivo, Usuario_Id) " +
@@ -95,7 +90,7 @@ namespace Data.Repository
         {
             try
             {
-                using var conexao = new SqliteConnection(caminhoBanco);
+                using var conexao = new SqliteConnection(_caminhoBanco);
                 conexao.Open();
 
                 string deleteSql = "DELETE FROM Musica WHERE Id = @Id";

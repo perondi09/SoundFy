@@ -102,16 +102,6 @@ namespace SoundFy.Controllers
             return View("Index", "Login");
         }
 
-        private string CriarCorpoEmailLoginValidado()
-        {
-            var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "IP desconhecido";
-            var navegador = Request.Headers["User-Agent"].ToString();
-
-            string dataHora = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-            string corpo = $"Seu login foi realizado com sucesso em {dataHora}.\nIP de acesso: {ip}\nNavegador: {navegador}";
-            return corpo;
-        }
-
         //Retorno de view a pagina de recuperar senha
         public IActionResult RecuperarConta()
         {

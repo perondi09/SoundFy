@@ -1,31 +1,24 @@
-using Business.Utilities;
-using Data.Config;
+using Data.BancoDeDados;
 using Data.Models;
 using Microsoft.Data.Sqlite;
-using Microsoft.Extensions.Configuration;
 
 namespace Data.Repository
 {
     public class ArtistaRepository
     {       
         // Caminho do banco de dados
-        private readonly string caminhoBanco;
+        private readonly string _caminhoBanco;
 
-        // Construtor que carrega configurações do banco de dados
         public ArtistaRepository()
         {
-            IConfigurationRoot config = ConfigHelper.LoadConfiguration();
-            string caminhoArquivo = config.GetSection("DataSettings:ConexaoBanco").Value
-                                    ?? throw new InvalidOperationException("ConexaoBanco não encontrada nas configurações.");
-
-            caminhoBanco = $"Data Source={caminhoArquivo}";
-        }  
+            _caminhoBanco = ConexaoBanco.ObterStringConexao();
+        }
              
         // Método para listar músicas por usuário
         public List<MusicaModel> ListarMusicasPorUsuario(int usuarioId)
         {
             var musicas = new List<MusicaModel>();
-            using var conexao = new SqliteConnection(caminhoBanco);
+            using var conexao = new SqliteConnection(_caminhoBanco);
             conexao.Open();
 
             string selectSql = "SELECT Id, Titulo, NomeArtista, Genero, Ano, NomeArquivo FROM Musica WHERE Usuario_Id = @Usuario_Id";
