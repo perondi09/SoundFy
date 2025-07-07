@@ -1,10 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-using Business;
 using Adm.ViewModel;
+using Business;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Adm.Controllers;
-
-public class HomeController : Controller
+namespace Adm.Controllers
 {
     public class AdministradorController : Controller
     {

@@ -1,30 +1,23 @@
-﻿using Data.Config;
+﻿using Data.BancoDeDados;
 using Data.Models;
 using Microsoft.Data.Sqlite;
-using Microsoft.Extensions.Configuration;
 
 namespace Data.Repository
 {
     public class UsuarioRepository
-    {       
-
+    {
         // Caminho do banco de dados
-        private readonly string caminhoBanco;
+        private readonly string _caminhoBanco;
 
-        // Construtor para carregar a configuração do banco de dados
         public UsuarioRepository()
         {
-            IConfigurationRoot config = ConfigHelper.LoadConfiguration();
-            string caminhoArquivo = config.GetSection("DataSettings:ConexaoBanco").Value
-                                    ?? throw new InvalidOperationException("ConexaoBanco não encontrada nas configurações.");
-
-            caminhoBanco = $"Data Source={caminhoArquivo}";
+            _caminhoBanco = ConexaoBanco.ObterStringConexao();
         }
 
         // Valida o usuário com email e senha  
         public bool ValidarUsuario(string email, string senha)
         {
-            using var conexao = new SqliteConnection(caminhoBanco);
+            using var conexao = new SqliteConnection(_caminhoBanco);
             conexao.Open();
 
             string selectSql = "SELECT * FROM Usuario WHERE Email = @Email AND Senha = @Senha";
@@ -39,7 +32,7 @@ namespace Data.Repository
         // Verifica se o usuário já existe no banco de dados  
         public bool ValidaUsuarioExistente(string email)
         {
-            using var conexao = new SqliteConnection(caminhoBanco);
+            using var conexao = new SqliteConnection(_caminhoBanco);
             conexao.Open();
 
             string selectSql = "SELECT * FROM Usuario WHERE Email = @Email";
@@ -55,7 +48,7 @@ namespace Data.Repository
         {
             try
             {
-                using var conexao = new SqliteConnection(caminhoBanco);
+                using var conexao = new SqliteConnection(_caminhoBanco);
                 conexao.Open();
 
                 string insertSql = "INSERT INTO Usuario (Email, Senha, Tipo) VALUES (@Email, @Senha, @Tipo)";
@@ -64,7 +57,7 @@ namespace Data.Repository
                 cmd.Parameters.AddWithValue("@Senha", senha);
                 cmd.Parameters.AddWithValue("@Tipo", tipo);
 
-                cmd.ExecuteNonQuery();          
+                cmd.ExecuteNonQuery();
 
                 return true;
             }
@@ -83,7 +76,7 @@ namespace Data.Repository
         // Obtém o tipo de usuário baseado no email  
         public string? ObterTipoUsuario(string email)
         {
-            using var conexao = new SqliteConnection(caminhoBanco);
+            using var conexao = new SqliteConnection(_caminhoBanco);
             conexao.Open();
 
             string selectSql = "SELECT Tipo FROM Usuario WHERE Email = @Email";
@@ -100,7 +93,7 @@ namespace Data.Repository
         // Obtém o usuário completo baseado no email  
         public UsuarioModel? ObterUsuarioPorEmail(string email)
         {
-            using var conexao = new SqliteConnection(caminhoBanco);
+            using var conexao = new SqliteConnection(_caminhoBanco);
             conexao.Open();
 
             string selectSql = "SELECT Id, Email, Senha, Tipo FROM Usuario WHERE Email = @Email";
@@ -120,6 +113,6 @@ namespace Data.Repository
             }
             return null;
         }
- 
+
     }
 }

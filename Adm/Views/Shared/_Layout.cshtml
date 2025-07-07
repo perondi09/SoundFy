@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoundFy</title>
+    <link rel="stylesheet" href="@Url.Content("~/css/layouts/_layout.css")" />
+</head>
+
+<body>
+
+    <header class="cabecalho">
+
+        <div class="logo">SoundFy</div>
+
+        <nav class="links">            
+            <a href="@Url.Action("Deslogar", "Login")">Sair</a>
+        </nav>
+
+    </header>
+
+    <div class="container">
+        @RenderBody()
+    </div>
+</body>
+
+</html>
