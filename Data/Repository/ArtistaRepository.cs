@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 using Data.BancoDeDados;
-=======
-using Data.Config;
->>>>>>> 8ead8e9e4cd55d59a14497d41aa31da90884a682
-=======
-using Data.BancoDeDados;
->>>>>>> extracao-modulo-adm
 using Data.Models;
 using Microsoft.Data.Sqlite;
 
@@ -21,11 +13,7 @@ namespace Data.Repository
         {
             _caminhoBanco = ConexaoBanco.ObterStringConexao();
         }
-<<<<<<< HEAD
-             
-=======
-
->>>>>>> extracao-modulo-adm
+        
         // Método para listar músicas por usuário
         public List<MusicaModel> ListarMusicasPorUsuario(int usuarioId)
         {

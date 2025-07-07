@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 using Data.BancoDeDados;
-=======
-using Data.Config;
->>>>>>> 8ead8e9e4cd55d59a14497d41aa31da90884a682
-=======
-using Data.BancoDeDados;
->>>>>>> extracao-modulo-adm
 using Data.Models;
 using Microsoft.Data.Sqlite;
 
@@ -42,11 +34,8 @@ namespace Data.Repository
         {
             try
             {
-<<<<<<< HEAD
-                using var conexao = new SqliteConnection(_caminhoBanco);
-=======
-                using var conexao = new SqliteConnection( _caminhoBanco);
->>>>>>> extracao-modulo-adm
+                using var conexao = new SqliteConnection(_caminhoBanco);               
+
                 conexao.Open();
 
                 string deleteSql = "DELETE FROM Usuario WHERE Id = @Id";
@@ -65,11 +54,9 @@ namespace Data.Repository
         public List<UsuarioModel> ListarUsuarios()
         {
             var usuarios = new List<UsuarioModel>();
-<<<<<<< HEAD
+
             using var conexao = new SqliteConnection(_caminhoBanco);
-=======
-            using var conexao = new SqliteConnection( _caminhoBanco);
->>>>>>> extracao-modulo-adm
+
             conexao.Open();
 
             string selectSql = "SELECT Id, Email, Senha, Tipo FROM Usuario";
