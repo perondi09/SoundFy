@@ -1,0 +1,123 @@
+body {
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.telas-inicias {
+  background-color: #181818;
+  border-radius: 12px;
+  width: 360px;
+  padding: 30px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.telas-inicias h1 {
+  color: #1db954;
+  margin-bottom: 16px;
+  font-size: 1.8em;
+}
+
+.input-telas-inicias input,
+.input-telas-inicias select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #232323;
+  color: #fff;
+  font-size: 1em;
+}
+
+.input-telas-inicias input:focus,
+.input-telas-inicias select:focus {
+  background: #2a2a2a;
+  outline: none;
+}
+
+.captcha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.captcha span {
+  background: #232323;
+  color: #1db954;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 1em;
+  letter-spacing: 1px;
+}
+
+.captcha a {
+  color: #1db954;
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
+.captcha a:hover {
+  color: #fff;
+}
+
+.botoes-telas-inicias {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.botoes-telas-inicias button {
+  background: #1db954;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.botoes-telas-inicias button:hover {
+  background: #17a74a;
+}
+
+.botoes-telas-inicias a {
+  color: #1db954;
+  font-size: 0.95em;
+  text-decoration: none;
+  text-align: center;
+}
+
+.botoes-telas-inicias a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.alert {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 0.95em;
+  text-align: center;
+}
+
+.alert-info {
+  background: #232323;
+  color: #1db954;
+}
+
+.alert-success {
+  background: #1db954;
+  color: white;
+}

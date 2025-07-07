@@ -1,8 +1,8 @@
+using Adm.ViewModel;
 using Business;
 using Microsoft.AspNetCore.Mvc;
-using WebApp.ViewModel;
 
-namespace WebApp.Controllers
+namespace Adm.Controllers
 {
     public class AdministradorController : Controller
     {

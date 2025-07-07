@@ -1,4 +1,4 @@
-namespace WebApp.ViewModel
+namespace Adm.ViewModel
 {
     public class UsuarioViewModel
     {

@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    ViewData["Title"] = "Login";
+}
+
+<script src="~/js/login.js"></script>
+
+@using (Html.BeginForm("Autenticar", "Login", FormMethod.Post))
+{
+    <div class="telas-inicias">
+
+        <h1>Login</h1>
+
+        <div class="input-telas-inicias">
+
+            <input type="email" id="email" name="email" required placeholder="Email" />
+
+            <input type="password" id="senha" name="senha" required placeholder="Senha" />           
+
+            <div class="botoes-telas-inicias">
+                <button type="submit" onclick="return login()">Login</button>                
+            </div>
+        </div>
+    </div>
+
+
+    @if (ViewBag.Mensagem != null)
+    {
+        <div style="color: red;">
+            <p>@ViewBag.Mensagem</p>
+        </div>
+    }
+    @if (TempData["Mensagem"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Mensagem"]
+        </div>
+    }
+}
+
+

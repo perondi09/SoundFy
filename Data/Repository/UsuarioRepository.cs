@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 ﻿using Data.BancoDeDados;
 =======
 ﻿using Data.Config;
 >>>>>>> 8ead8e9e4cd55d59a14497d41aa31da90884a682
+=======
+﻿using Data.BancoDeDados;
+>>>>>>> extracao-modulo-adm
 using Data.Models;
 using Microsoft.Data.Sqlite;
 
@@ -10,7 +14,10 @@ namespace Data.Repository
 {
     public class UsuarioRepository
     {
+<<<<<<< HEAD
 
+=======
+>>>>>>> extracao-modulo-adm
         // Caminho do banco de dados
         private readonly string _caminhoBanco;
 
@@ -115,6 +122,7 @@ namespace Data.Repository
             return null;
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
         public bool ConfirmarEmail(string email)
         {
@@ -133,5 +141,8 @@ namespace Data.Repository
 =======
  
 >>>>>>> 8ead8e9e4cd55d59a14497d41aa31da90884a682
+=======
+
+>>>>>>> extracao-modulo-adm
     }
 }

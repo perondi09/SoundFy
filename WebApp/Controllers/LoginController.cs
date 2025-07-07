@@ -48,16 +48,7 @@ namespace SoundFy.Controllers
 
             var tipoUsuario = usuarioBusiness.ObtemTipoUsuario(email);
 
-            if (tipoUsuario == null)
-            {                
-                if (adiministradorBusiness.ValidarSeUsuarioExiste(email, senha))
-                {
-                    HttpContext.Session.SetString("logado", "true");
-                    HttpContext.Session.SetString("tipoUsuario", "Administrador");
-                    return RedirectToAction("Index", "Administrador");
-                }
-            }
-            else if (usuarioBusiness.ValidarUsuario(email, senha))
+            if (usuarioBusiness.ValidarUsuario(email, senha))
             {
                 try
                 {
@@ -70,7 +61,7 @@ namespace SoundFy.Controllers
 
                 catch
                 {
-
+                    
                 }
 
                 HttpContext.Session.SetString("logado", "true");
