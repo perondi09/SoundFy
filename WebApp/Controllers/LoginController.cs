@@ -61,7 +61,7 @@ namespace SoundFy.Controllers
 
                 catch
                 {
-                    
+
                 }
 
                 HttpContext.Session.SetString("logado", "true");
@@ -102,23 +102,32 @@ namespace SoundFy.Controllers
         [HttpPost]
         public IActionResult RecuperarConta(string email)
         {
-            if (usuarioBusiness.ValidarSeUsuarioExiste(email))
+            try
             {
-                string codigoVerificacao = new Random().Next(100000, 999999).ToString();
+                if (usuarioBusiness.ValidarSeUsuarioExiste(email))
+                {
+                    string codigoVerificacao = new Random().Next(100000, 999999).ToString();
 
-                HttpContext.Session.SetString("CodigoVerificacao", codigoVerificacao);
-                HttpContext.Session.SetString("EmailRecuperacao", email);
+                    HttpContext.Session.SetString("CodigoVerificacao", codigoVerificacao);
+                    HttpContext.Session.SetString("EmailRecuperacao", email);
 
-                string corpo = UsuarioBusiness.CriarCorpoRecuperacao(codigoVerificacao);
+                    string corpo = UsuarioBusiness.CriarCorpoRecuperacao(codigoVerificacao);
 
-                emails.EnviarEmailGenerico(email, "Confirmação de Login - SoundFy", corpo);
-                ViewBag.Mensagem = "Um e-mail de recuperação foi enviado para você.";
+                    emails.EnviarEmailGenerico(email, "Confirmação de Login - SoundFy", corpo);
+                    ViewBag.Mensagem = "Um e-mail de recuperação foi enviado para você.";
+                    return Json(new { ok = true });
+                }
+                else
+                {
+                    ViewBag.Mensagem = "E-mail não encontrado.";
+                    return Json(new { ok = false });
+                }
+                // return View("ValidarCodigo");
             }
-            else
+            catch
             {
-                ViewBag.Mensagem = "E-mail não encontrado.";
+                return Json(new { ok = false });
             }
-            return View("ValidarCodigo");
         }
 
         //Retorno de view a pagina validar codigo

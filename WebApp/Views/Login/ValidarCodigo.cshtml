@@ -3,7 +3,8 @@
     ViewData["Title"] = "Validação de Código";
 }
 
-@using (Html.BeginForm("ValidarCodigo", "Login", FormMethod.Post))
+<script src="~/js/validarcodigo.js"></script>
+
 {
     <div class="telas-inicias">
         <h1>Validação de Código</h1>
@@ -14,7 +15,7 @@
         </div>
 
         <div class="botoes-telas-inicias">
-            <button type="submit">Validar Código</button>
+            <button type="button" id="btnenviacodigo">Validar Código</button>
             <a href="@Url.Action("Index", "Login")">Voltar</a>
         </div>
 
