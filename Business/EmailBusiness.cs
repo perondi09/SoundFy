@@ -15,7 +15,7 @@ namespace Business
         }
 
         //Metodo para enviar email       
-        public void EnviarEmailGenerico(string destinatario, string assunto, string corpo)
+        public bool EnviarEmailGenerico(string destinatario, string assunto, string corpo)
         {
             try
             {
@@ -24,12 +24,16 @@ namespace Business
                 {
                     mensagem.Subject = assunto;
                     mensagem.Body = corpo;
+                    
                     smtpClient.Send(mensagem);
                 }
+
+                return true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Ocorreu um erro ao enviar email. {ex.Message}");
+                return false;
             }
         }
     }

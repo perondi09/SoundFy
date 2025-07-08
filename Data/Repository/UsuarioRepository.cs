@@ -109,20 +109,5 @@ namespace Data.Repository
             }
             return null;
         }
-
-        public bool ConfirmarEmail(string email)
-        {
-            using (var conexao = new SqliteConnection(_caminhoBanco))
-            {
-                conexao.Open();
-
-                string sql = "UPDATE Usuario SET EmailConfirmado = 1 WHERE Email = @Email";
-                using (var cmd = new SqliteCommand(sql, conexao))
-                {
-                    cmd.Parameters.AddWithValue("@Email", email);
-                    return cmd.ExecuteNonQuery() > 0;
-                }
-            }
-        }
     }
 }

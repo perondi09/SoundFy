@@ -5,6 +5,8 @@
 
 <script src="~/js/validarcodigo.js"></script>
 
+@using (Html.BeginForm("ValidarCodigo", "Login", FormMethod.Post))
+
 {
     <div class="telas-inicias">
         <h1>Validação de Código</h1>
@@ -19,11 +21,6 @@
             <a href="@Url.Action("Index", "Login")">Voltar</a>
         </div>
 
-        @if (ViewBag.Mensagem != null)
-        {
-            <div class="alert alert-info">
-                <p>@ViewBag.Mensagem</p>
-            </div>
-        }
+        <div id="mensagemCodigo" class="alert alert-info" style="display: none;"></div>
     </div>
 }
