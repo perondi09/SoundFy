@@ -3,7 +3,10 @@
     ViewData["Title"] = "Recuperar Conta";
 }
 
+<script src="~/js/recuperarconta.js"></script>
+
 @using (Html.BeginForm("RecuperarConta", "Login", FormMethod.Post))
+
 {
     <div class="telas-inicias">
         <h1>Recuperar Conta</h1>
@@ -14,15 +17,10 @@
         </div>
 
         <div class="botoes-telas-inicias">
-            <button type="submit">Enviar email</button>
+            <button type="submit" id="btnEnviarEmail">Enviar email</button>
             <a href="@Url.Action("Index", "Login")">Voltar para o login</a>
         </div>
 
-        @if (ViewBag.Mensagem != null)
-        {
-            <div class="alert alert-info">
-                <p>@ViewBag.Mensagem</p>
-            </div>
-        }
+        <div id="mensagemEmail" class="alert alert-info" style="display: none;"></div>
     </div>
 }

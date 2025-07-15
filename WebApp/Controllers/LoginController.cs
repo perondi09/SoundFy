@@ -61,7 +61,7 @@ namespace SoundFy.Controllers
 
                 catch
                 {
-                    
+
                 }
 
                 HttpContext.Session.SetString("logado", "true");
@@ -102,23 +102,37 @@ namespace SoundFy.Controllers
         [HttpPost]
         public IActionResult RecuperarConta(string email)
         {
-            if (usuarioBusiness.ValidarSeUsuarioExiste(email))
+            try
             {
-                string codigoVerificacao = new Random().Next(100000, 999999).ToString();
+                if (usuarioBusiness.ValidarSeUsuarioExiste(email))
+                {
+                    string codigoVerificacao = new Random().Next(100000, 999999).ToString();
 
-                HttpContext.Session.SetString("CodigoVerificacao", codigoVerificacao);
-                HttpContext.Session.SetString("EmailRecuperacao", email);
+                    HttpContext.Session.SetString("CodigoVerificacao", codigoVerificacao);
+                    HttpContext.Session.SetString("EmailRecuperacao", email);
 
-                string corpo = UsuarioBusiness.CriarCorpoRecuperacao(codigoVerificacao);
+                    string corpo = UsuarioBusiness.CriarCorpoRecuperacao(codigoVerificacao);
 
-                emails.EnviarEmailGenerico(email, "Confirmação de Login - SoundFy", corpo);
-                ViewBag.Mensagem = "Um e-mail de recuperação foi enviado para você.";
+                    bool emailEnviado = emails.EnviarEmailGenerico(email, "Confirmação de Login - SoundFy", corpo);
+
+                    if (emailEnviado)
+                    {
+                        return Json(new { ok = true });
+                    }
+                    else
+                    {
+                        return Json(new { ok = false, mensagem = "Erro ao enviar e-mail." });
+                    }
+                }
+                else
+                {
+                    return Json(new { ok = false, mensagem = "E-mail não encontrado." });
+                }
             }
-            else
+            catch
             {
-                ViewBag.Mensagem = "E-mail não encontrado.";
+                return Json(new { ok = false, mensagem = "Erro no servidor." });
             }
-            return View("ValidarCodigo");
         }
 
         //Retorno de view a pagina validar codigo
@@ -129,18 +143,32 @@ namespace SoundFy.Controllers
 
         //Validação do código de recuperação
         [HttpPost]
-        public IActionResult ValidarCodigo(string codigo)
+        public JsonResult ValidarCodigo(string codigo)
         {
             string codigoSessao = HttpContext.Session.GetString("CodigoVerificacao");
-            if (codigo == codigoSessao)
+            string email = HttpContext.Session.GetString("EmailRecuperacao");
+
+            if (codigo != codigoSessao)
             {
-                return RedirectToAction("Index", "PaginaInicial");
+                return Json(new { ok = false, mensagem = "Código inválido." });
             }
-            else
+
+            var tipoUsuario = usuarioBusiness.ObtemTipoUsuario(email);
+
+            if (tipoUsuario == null)
+                return Json(new { ok = false, mensagem = "Tipo de usuário não identificado." });
+
+            HttpContext.Session.SetString("logado", "true");
+            HttpContext.Session.SetString("tipoUsuario", tipoUsuario);
+
+            if (tipoUsuario == "Artista")
             {
-                ViewBag.Mensagem = "Código inválido.";
-                return View("ValidarCodigo");
+                var usuario = usuarioBusiness.ObterUsuarioPorEmail(email);
+                if (usuario != null)
+                    HttpContext.Session.SetInt32("IdArtista", usuario.Id);
             }
+
+            return Json(new { ok = true, tipo = tipoUsuario });
         }
 
         // Método para deslogar o usuário
