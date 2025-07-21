@@ -16,16 +16,21 @@ namespace SoundFy.Controllers
 
         // Autenticação do usuario     
         [HttpPost]
-        public IActionResult Autenticar(string email, string senha, string captcha)
+        public IActionResult Autenticar(string email, string senha)
         {
-            adiministradorBusiness.ValidarSeUsuarioExiste(email, senha);
+            if (adiministradorBusiness.ValidarSeUsuarioExiste(email, senha))
             {
                 HttpContext.Session.SetString("logado", "true");
                 HttpContext.Session.SetString("tipoUsuario", "Administrador");
                 return RedirectToAction("Index", "Administrador");
             }
-        }       
-      
+            else
+            {
+                ViewBag.Mensagem = "Email ou senha inválidos.";
+                return View("Index");
+            }
+        }
+
         // Método para deslogar o usuário
         public IActionResult Deslogar()
         {
