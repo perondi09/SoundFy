@@ -1,12 +1,13 @@
 using Data.BancoDeDados;
 using Data.Models;
 using Microsoft.Data.Sqlite;
+using SQLitePCL;
 
 namespace Data.Repository
 {
     public class MusicaRepository
     {
-        
+
         // Caminho do banco de dados
         private readonly string _caminhoBanco;
 
@@ -111,5 +112,35 @@ namespace Data.Repository
                 return false;
             }
         }
+
+        public bool Reproducoes(int id, int reproducao)
+        {
+            try
+            {
+                using var conexao = new SqliteConnection(_caminhoBanco);
+                conexao.Open();
+
+                string updateSql = "UPDATE Musica SET Reproducao = @Reproducao WHERE Id = @Id";
+                using var cmd = new SqliteCommand(updateSql, conexao);
+                cmd.Parameters.AddWithValue("@Reproducao", reproducao);
+               
+                cmd.ExecuteNonQuery();
+
+                return true;
+
+            }
+            catch (SqliteException ex)
+            {
+                Console.WriteLine($"Erro SQLite: {ex.Message}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro geral: {ex.Message}");
+                return false;
+            }
+        }    
+
+            
     }
 }

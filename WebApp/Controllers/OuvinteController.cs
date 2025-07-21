@@ -1,4 +1,5 @@
-﻿using Business.Properties;
+﻿using Business;
+using Business.Properties;
 using Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.ViewModel;
@@ -57,11 +58,19 @@ namespace WebApp.Controllers
 
         // Método para reproduzir o áudio da música 
         public IActionResult StreamAudio(int id)
-        {
+        {          
             byte[]? audioBytes = ouvinteBusiness.ObterBytesMusicaPorId(id);
             if (audioBytes == null)
             {
-                return NotFound();
+            return NotFound();
+            }
+            try
+            {            
+            ouvinteBusiness.ContaReproducao(id, 2);
+            }
+            catch (Exception ex)
+            {
+            Console.WriteLine($"Erro ao contar reprodução: {ex.Message}");
             }
 
             return File(audioBytes, "audio/mpeg");
