@@ -57,23 +57,15 @@ namespace WebApp.Controllers
         }
 
         // Método para reproduzir o áudio da música 
-        public IActionResult StreamAudio(int id)
-        {          
-            byte[]? audioBytes = ouvinteBusiness.ObterBytesMusicaPorId(id);
-            if (audioBytes == null)
-            {
-            return NotFound();
-            }
-            try
-            {            
-            ouvinteBusiness.ContaReproducao(id, 2);
-            }
-            catch (Exception ex)
-            {
-            Console.WriteLine($"Erro ao contar reprodução: {ex.Message}");
-            }
+        public FileStreamResult StreamAudio(int id)
+        {
+            if (HttpContext.Session.GetString("logado") != "true")
+                return null;
 
-            return File(audioBytes, "audio/mpeg");
+            ouvinteBusiness.IncrementarReproducao(id);
+
+            var bytes = ouvinteBusiness.ObterBytesMusicaPorId(id);
+            return new FileStreamResult(new MemoryStream(bytes), "audio/mpeg");
         }
     }
 }

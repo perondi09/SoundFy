@@ -16,11 +16,11 @@ namespace Business.Properties
         public byte[]? ObterBytesMusicaPorId(int id)
         {
             return ouvinteRepo.ObterBytesMusicaPorId(id);
-        }     
+        }
 
-         public bool ContaReproducao(int Id, int Reproducao)
+        public void IncrementarReproducao(int id)
         {
-            return musicaRepo.Reproducoes(Id, Reproducao);
-        }          
+            musicaRepo.IncrementarReproducao(id);
+        }
     }
 }

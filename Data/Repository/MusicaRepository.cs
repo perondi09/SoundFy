@@ -1,7 +1,7 @@
 using Data.BancoDeDados;
 using Data.Models;
 using Microsoft.Data.Sqlite;
-using SQLitePCL;
+using Data.ViewModel;
 
 namespace Data.Repository
 {
@@ -112,35 +112,63 @@ namespace Data.Repository
                 return false;
             }
         }
-
-        public bool Reproducoes(int id, int reproducao)
+        public void IncrementarReproducao(int id)
         {
-            try
+            using var conexao = new SqliteConnection(_caminhoBanco);
+            conexao.Open();
+            using var cmd = new SqliteCommand(
+                "UPDATE Musica SET Reproducao = Reproducao + 1 WHERE Id = @id", conexao);
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.ExecuteNonQuery();
+        }
+
+        public List<EstatisticaViewArtistaModel> ObterEstatisticasArtistas()
+        {
+            var lista = new List<EstatisticaViewArtistaModel>();
+            using var conexao = new SqliteConnection(_caminhoBanco);
+            conexao.Open();
+            string sql = @"
+                SELECT NomeArtista, COUNT(*) AS TotalMusicas, SUM(Reproducao) AS TotalReproducoes
+                  FROM Musica
+              GROUP BY NomeArtista
+              ORDER BY TotalReproducoes DESC";
+            using var cmd = new SqliteCommand(sql, conexao);
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
             {
-                using var conexao = new SqliteConnection(_caminhoBanco);
-                conexao.Open();
-
-                string updateSql = "UPDATE Musica SET Reproducao = @Reproducao WHERE Id = @Id";
-                using var cmd = new SqliteCommand(updateSql, conexao);
-                cmd.Parameters.AddWithValue("@Reproducao", reproducao);
-               
-                cmd.ExecuteNonQuery();
-
-                return true;
-
+                lista.Add(new EstatisticaViewArtistaModel
+                {
+                    NomeArtista = reader.GetString(0),
+                    TotalMusicas = reader.GetInt32(1),
+                    TotalReproducoes = reader.GetInt32(2)
+                });
             }
-            catch (SqliteException ex)
+            return lista;
+        }
+
+        public List<EstatisticaMusicaViewModel> ObterEstatisticasMusicas()
+        {
+            var lista = new List<EstatisticaMusicaViewModel>();
+            using var conexao = new SqliteConnection(_caminhoBanco);
+            conexao.Open();
+            string sql = @"
+                SELECT Id, Titulo, NomeArtista, Reproducao AS TotalReproducoes
+                  FROM Musica
+              ORDER BY TotalReproducoes DESC
+                 LIMIT 10";
+            using var cmd = new SqliteCommand(sql, conexao);
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
             {
-                Console.WriteLine($"Erro SQLite: {ex.Message}");
-                return false;
+                lista.Add(new EstatisticaMusicaViewModel
+                {
+                    Id = reader.GetInt32(0),
+                    Titulo = reader.GetString(1),
+                    NomeArtista = reader.GetString(2),
+                    TotalReproducoes = reader.GetInt32(3)
+                });
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro geral: {ex.Message}");
-                return false;
-            }
-        }    
-
-            
+            return lista;
+        }
     }
 }
