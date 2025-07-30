@@ -10,5 +10,6 @@ namespace Data.Models
         public string NomeArquivo { get; set; }
         public byte[] Arquivo { get; set; }
         public int Usuario_Id { get; set; }
+        public int Reproducao { get; set; }
     }
 }

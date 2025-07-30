@@ -1,7 +1,6 @@
 using Data.BancoDeDados;
 using Data.Models;
 using Microsoft.Data.Sqlite;
-using Data.ViewModel;
 
 namespace Data.Repository
 {
@@ -122,53 +121,35 @@ namespace Data.Repository
             cmd.ExecuteNonQuery();
         }
 
-        public List<EstatisticaViewArtistaModel> ObterEstatisticasArtistas()
+        public List<MusicaModel> ListarReproducao()
         {
-            var lista = new List<EstatisticaViewArtistaModel>();
-            using var conexao = new SqliteConnection(_caminhoBanco);
-            conexao.Open();
-            string sql = @"
-                SELECT NomeArtista, COUNT(*) AS TotalMusicas, SUM(Reproducao) AS TotalReproducoes
-                  FROM Musica
-              GROUP BY NomeArtista
-              ORDER BY TotalReproducoes DESC";
-            using var cmd = new SqliteCommand(sql, conexao);
-            using var reader = cmd.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                lista.Add(new EstatisticaViewArtistaModel
-                {
-                    NomeArtista = reader.GetString(0),
-                    TotalMusicas = reader.GetInt32(1),
-                    TotalReproducoes = reader.GetInt32(2)
-                });
-            }
-            return lista;
-        }
+                var reproducoes = new List<MusicaModel>();
+                using var conexao = new SqliteConnection(_caminhoBanco);
+                conexao.Open();
 
-        public List<EstatisticaMusicaViewModel> ObterEstatisticasMusicas()
-        {
-            var lista = new List<EstatisticaMusicaViewModel>();
-            using var conexao = new SqliteConnection(_caminhoBanco);
-            conexao.Open();
-            string sql = @"
-                SELECT Id, Titulo, NomeArtista, Reproducao AS TotalReproducoes
-                  FROM Musica
-              ORDER BY TotalReproducoes DESC
-                 LIMIT 10";
-            using var cmd = new SqliteCommand(sql, conexao);
-            using var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                lista.Add(new EstatisticaMusicaViewModel
+                string selectSql = "SELECT Id, Titulo, NomeArtista, Reproducao FROM Musica";
+                using var cmd = new SqliteCommand(selectSql, conexao);
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    Id = reader.GetInt32(0),
-                    Titulo = reader.GetString(1),
-                    NomeArtista = reader.GetString(2),
-                    TotalReproducoes = reader.GetInt32(3)
-                });
+                    reproducoes.Add(new MusicaModel
+                    {
+                        Id = reader.IsDBNull(reader.GetOrdinal("Id")) ? 0 : reader.GetInt32(reader.GetOrdinal("Id")),
+                        Titulo = reader.IsDBNull(reader.GetOrdinal("Titulo")) ? string.Empty : reader.GetString(reader.GetOrdinal("Titulo")),
+                        NomeArtista = reader.IsDBNull(reader.GetOrdinal("NomeArtista")) ? string.Empty : reader.GetString(reader.GetOrdinal("NomeArtista")),
+                        Reproducao = reader.IsDBNull(reader.GetOrdinal("Reproducao")) ? 0 : reader.GetInt32(reader.GetOrdinal("Reproducao"))                        
+                    });
+                }
+
+                return reproducoes;
             }
-            return lista;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao listar músicas: {ex.Message}");
+                return new List<MusicaModel>();
+            }
         }
     }
 }

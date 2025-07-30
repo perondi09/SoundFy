@@ -1,10 +1,10 @@
-namespace Data.ViewModel
+namespace Adm.ViewModel
 {
-    public class EstatisticaMusicaViewModel
+    public class ReproducoesViewModel
     {
         public int Id { get; set; }
         public string Titulo { get; set; }
         public string NomeArtista { get; set; }
-        public int TotalReproducoes { get; set; }
+        public int Reproducao { get; set; }
     }
 }

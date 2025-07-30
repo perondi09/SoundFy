@@ -1,5 +1,4 @@
 using Data.Repository;
-using Data.ViewModel;
 
 namespace Business
 {
@@ -21,12 +20,6 @@ namespace Business
         public bool ValidarSeUsuarioExiste(string email, string senha)
         {
             return AdmRepo.ValidarAdministrador(email, senha);
-        }
-
-         public List<EstatisticaViewArtistaModel> ObterEstatisticasArtistas() =>
-           MusicaRepo.ObterEstatisticasArtistas();
-
-        public List<EstatisticaMusicaViewModel> ObterEstatisticasMusicas() =>
-            MusicaRepo.ObterEstatisticasMusicas();
+        }         
     }
 }

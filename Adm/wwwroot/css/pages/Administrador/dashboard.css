@@ -1,0 +1,30 @@
+.dashboard {
+        margin-top: 40px;
+        color: #1db954;
+    }
+
+    .dashboard h2 {
+        margin-bottom: 20px;
+    }
+
+    .barra {
+        background-color: #e0e0e0;
+        border-radius: 10px;
+        overflow: hidden;
+        height: 20px;
+        margin-bottom: 15px;
+    }
+
+    .barra-preenchida {
+        background-color: #4caf50;
+        height: 100%;
+        color: white;
+        padding-left: 10px;
+        line-height: 20px;
+        white-space: nowrap;
+    }
+
+    .label {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }

@@ -22,5 +22,10 @@ namespace Business.Properties
         {
             musicaRepo.IncrementarReproducao(id);
         }
+
+        public List<MusicaModel> ListarReproducoes()
+        {
+            return musicaRepo.ListarReproducao();
+        }
     }
 }
