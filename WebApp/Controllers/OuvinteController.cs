@@ -1,4 +1,5 @@
-﻿using Business.Properties;
+﻿using Business;
+using Business.Properties;
 using Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.ViewModel;
@@ -56,15 +57,15 @@ namespace WebApp.Controllers
         }
 
         // Método para reproduzir o áudio da música 
-        public IActionResult StreamAudio(int id)
+        public FileStreamResult StreamAudio(int id)
         {
-            byte[]? audioBytes = ouvinteBusiness.ObterBytesMusicaPorId(id);
-            if (audioBytes == null)
-            {
-                return NotFound();
-            }
+            if (HttpContext.Session.GetString("logado") != "true")
+                return null;
 
-            return File(audioBytes, "audio/mpeg");
+            ouvinteBusiness.IncrementarReproducao(id);
+
+            var bytes = ouvinteBusiness.ObterBytesMusicaPorId(id);
+            return new FileStreamResult(new MemoryStream(bytes), "audio/mpeg");
         }
     }
 }

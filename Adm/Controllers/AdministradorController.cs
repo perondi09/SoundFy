@@ -28,7 +28,7 @@ namespace Adm.Controllers
             }
 
             return View(usuariosVm);
-        }
+        }        
 
         //Metodo para excluir um usuario
         public IActionResult Excluir(int Id)

@@ -12,11 +12,20 @@ namespace Business.Properties
         {
             return musicaRepo.ListarMusicas();
         }
-        
+
         public byte[]? ObterBytesMusicaPorId(int id)
         {
             return ouvinteRepo.ObterBytesMusicaPorId(id);
-        }       
-        
+        }
+
+        public void IncrementarReproducao(int id)
+        {
+            musicaRepo.IncrementarReproducao(id);
+        }
+
+        public List<MusicaModel> ListarReproducoes()
+        {
+            return musicaRepo.ListarReproducao();
+        }
     }
 }

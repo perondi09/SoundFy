@@ -6,7 +6,7 @@ namespace Data.Repository
 {
     public class MusicaRepository
     {
-        
+
         // Caminho do banco de dados
         private readonly string _caminhoBanco;
 
@@ -109,6 +109,46 @@ namespace Data.Repository
             {
                 Console.WriteLine($"Erro geral: {ex.Message}");
                 return false;
+            }
+        }
+        public void IncrementarReproducao(int id)
+        {
+            using var conexao = new SqliteConnection(_caminhoBanco);
+            conexao.Open();
+            using var cmd = new SqliteCommand(
+                "UPDATE Musica SET Reproducao = Reproducao + 1 WHERE Id = @id", conexao);
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.ExecuteNonQuery();
+        }
+
+        public List<MusicaModel> ListarReproducao()
+        {
+            try
+            {
+                var reproducoes = new List<MusicaModel>();
+                using var conexao = new SqliteConnection(_caminhoBanco);
+                conexao.Open();
+
+                string selectSql = "SELECT Id, Titulo, NomeArtista, Reproducao FROM Musica";
+                using var cmd = new SqliteCommand(selectSql, conexao);
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    reproducoes.Add(new MusicaModel
+                    {
+                        Id = reader.IsDBNull(reader.GetOrdinal("Id")) ? 0 : reader.GetInt32(reader.GetOrdinal("Id")),
+                        Titulo = reader.IsDBNull(reader.GetOrdinal("Titulo")) ? string.Empty : reader.GetString(reader.GetOrdinal("Titulo")),
+                        NomeArtista = reader.IsDBNull(reader.GetOrdinal("NomeArtista")) ? string.Empty : reader.GetString(reader.GetOrdinal("NomeArtista")),
+                        Reproducao = reader.IsDBNull(reader.GetOrdinal("Reproducao")) ? 0 : reader.GetInt32(reader.GetOrdinal("Reproducao"))                        
+                    });
+                }
+
+                return reproducoes;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao listar músicas: {ex.Message}");
+                return new List<MusicaModel>();
             }
         }
     }
