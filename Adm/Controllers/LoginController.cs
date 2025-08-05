@@ -21,14 +21,18 @@ namespace SoundFy.Controllers
             if (adiministradorBusiness.ValidarSeUsuarioExiste(email, senha))
             {
                 HttpContext.Session.SetString("logado", "true");
-                HttpContext.Session.SetString("tipoUsuario", "Administrador");
 
-                return Json(new { sucesso = true, redirecionar = Url.Action("Index", "Administrador") });
+                return Json(new
+                {
+                    sucesso = true,
+                    redirecionar = Url.Action("Index", "Administrador")
+                });
             }
-            else
+            return Json(new
             {
-                return Json(new { sucesso = false, mensagem = "Email ou senha inválidos." });
-            }
+                sucesso = false,
+                mensagem = "Email ou senha inválidos."
+            });
         }
 
         // Método para deslogar o usuário

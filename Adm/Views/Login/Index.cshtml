@@ -3,27 +3,24 @@
     ViewData["Title"] = "Login";
 }
 
-<script src="~/js/login.js"></script>
+<div class="telas-inicias">
 
-@using (Html.BeginForm("Autenticar", "Login", FormMethod.Post))
-{
-    <div class="telas-inicias">
+    <h1>Login</h1>
 
-        <h1>Login</h1>
+    <div class="input-telas-inicias">
 
-        <div class="input-telas-inicias">
+        <form id="formLogin">
+            <input type="email" id="email" name="email" required placeholder="Email" />
 
-            <form id="formLogin">
-                <input type="email" id="email" name="email" required placeholder="Email" />
+            <input type="password" id="senha" name="senha" required placeholder="Senha" />
 
-                <input type="password" id="senha" name="senha" required placeholder="Senha" />
-
-                <div class="botoes-telas-inicias">
-                    <button type="submit" onclick="return login()">Login</button>
-                </div>
-            </form>
-        </div>
+            <div class="botoes-telas-inicias">
+                <button type="submit">Login</button>
+            </div>
+        </form>
     </div>
+</div>
 
-    <div id="mensagemErro" style="color:red;"></div>
-}
+<div id="mensagemErro" style="color:red;"></div>
+
+<script src="~/js/login.js"></script>
