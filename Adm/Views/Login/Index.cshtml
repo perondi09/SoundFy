@@ -13,29 +13,17 @@
 
         <div class="input-telas-inicias">
 
-            <input type="email" id="email" name="email" required placeholder="Email" />
+            <form id="formLogin">
+                <input type="email" id="email" name="email" required placeholder="Email" />
 
-            <input type="password" id="senha" name="senha" required placeholder="Senha" />           
+                <input type="password" id="senha" name="senha" required placeholder="Senha" />
 
-            <div class="botoes-telas-inicias">
-                <button type="submit" onclick="return login()">Login</button>                
-            </div>
+                <div class="botoes-telas-inicias">
+                    <button type="submit" onclick="return login()">Login</button>
+                </div>
+            </form>
         </div>
     </div>
 
-
-    @if (ViewBag.Mensagem != null)
-    {
-        <div style="color: red;">
-            <p>@ViewBag.Mensagem</p>
-        </div>
-    }
-    @if (TempData["Mensagem"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["Mensagem"]
-        </div>
-    }
+    <div id="mensagemErro" style="color:red;"></div>
 }
-
-

@@ -22,12 +22,12 @@ namespace SoundFy.Controllers
             {
                 HttpContext.Session.SetString("logado", "true");
                 HttpContext.Session.SetString("tipoUsuario", "Administrador");
-                return RedirectToAction("Index", "Administrador");
+
+                return Json(new { sucesso = true, redirecionar = Url.Action("Index", "Administrador") });
             }
             else
             {
-                ViewBag.Mensagem = "Email ou senha inválidos.";
-                return View("Index");
+                return Json(new { sucesso = false, mensagem = "Email ou senha inválidos." });
             }
         }
 
