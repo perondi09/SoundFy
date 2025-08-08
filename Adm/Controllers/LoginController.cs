@@ -18,21 +18,47 @@ namespace SoundFy.Controllers
         [HttpPost]
         public IActionResult Autenticar(string email, string senha)
         {
-            if (adiministradorBusiness.ValidarSeUsuarioExiste(email, senha))
+            try
             {
-                HttpContext.Session.SetString("logado", "true");
+                throw new Exception("Erro de teste"); // Simulação de erro para teste
 
+                if (adiministradorBusiness.ValidarSeUsuarioExiste(email, senha))
+                {
+                    HttpContext.Session.SetString("logado", "true");
+
+                    return Json(new
+                    {
+                        sucesso = true,
+                        redirecionar = Url.Action("Index", "Administrador")
+                    });
+                }
                 return Json(new
                 {
-                    sucesso = true,
-                    redirecionar = Url.Action("Index", "Administrador")
+                    sucesso = false,
+                    mensagem = "Email ou senha inválidos."
+                });
+
+            }
+
+            catch (BusinessException ex)
+            {
+                Console.WriteLine($"Erro de negócio: {ex.Message}, Código de erro: {ex.ErrorCode}");
+                return Json(new
+                {
+                    sucesso = false,
+                    mensagem = "Erro de negócio: " + ex.Message
                 });
             }
-            return Json(new
+
+            catch (Exception ex)
             {
-                sucesso = false,
-                mensagem = "Email ou senha inválidos."
-            });
+                Console.WriteLine(ex.Message);
+                return Json(new
+                {
+                    sucesso = false,
+                    mensagem = "Ocorreu um erro ao autenticar o usuário. Por favor, tente novamente."
+                });
+            }            
         }
 
         // Método para deslogar o usuário

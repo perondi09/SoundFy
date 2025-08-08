@@ -20,6 +20,6 @@ namespace Business
         public bool ValidarSeUsuarioExiste(string email, string senha)
         {
             return AdmRepo.ValidarAdministrador(email, senha);
-        }         
+        }
     }
 }

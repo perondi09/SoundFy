@@ -17,6 +17,7 @@
             },
             error: function () {
                 $("#mensagemErro").text("Erro ao tentar autenticar.");
+                $("#mensagemErro").show();
             }
         });
     });
