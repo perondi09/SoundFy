@@ -19,9 +19,7 @@ namespace SoundFy.Controllers
         public IActionResult Autenticar(string email, string senha)
         {
             try
-            {
-                throw new Exception("Erro de teste"); // Simulação de erro para teste
-
+            {               
                 if (adiministradorBusiness.ValidarSeUsuarioExiste(email, senha))
                 {
                     HttpContext.Session.SetString("logado", "true");

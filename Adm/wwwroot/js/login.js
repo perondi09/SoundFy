@@ -1,23 +1,41 @@
 ﻿$(document).ready(function () {
     $("#formLogin").on("submit", function (e) {
         e.preventDefault();
+        
+        // Mostrar loading
+        $("#mensagemErro").hide();
+        $("#loading").show();
+        $("#formLogin button[type='submit']").prop('disabled', true).text('Carregando...');
+        
         $.ajax({
             type: "POST",
             url: "/Login/Autenticar",
             data: {
                 email: $("#email").val(),
-                senha: $("#senha").val()
+                senha: $("#senha").val(),
+                captcha: $("#captcha").val()
             },
             success: function (resposta) {
                 if (resposta.sucesso) {
+                    $("#loading").hide();
+                    $("#mensagemSucesso").text("Login realizado! Redirecionando...").show();
                     window.location.href = resposta.redirecionar;
                 } else {
-                    $("#mensagemErro").text(resposta.mensagem);
+                    $("#loading").hide();
+                    $("#mensagemErro").text(resposta.mensagem).show();
+                    $("#formLogin button[type='submit']").prop('disabled', false).text('Login');
+                    
+                    if (resposta.mensagem.includes("Captcha") || resposta.mensagem.includes("inválido")) {
+                        setTimeout(function() {
+                            location.reload();
+                        }, 2000);
+                    }
                 }
             },
             error: function () {
-                $("#mensagemErro").text("Erro ao tentar autenticar.");
-                $("#mensagemErro").show();
+                $("#loading").hide();
+                $("#mensagemErro").text("Erro ao tentar autenticar.").show();
+                $("#formLogin button[type='submit']").prop('disabled', false).text('Login');
             }
         });
     });

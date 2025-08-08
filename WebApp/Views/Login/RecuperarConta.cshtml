@@ -3,24 +3,25 @@
     ViewData["Title"] = "Recuperar Conta";
 }
 
-<script src="~/js/recuperarconta.js"></script>
+<div class="telas-inicias">
+    <h1>Recuperar Conta</h1>
+    <p>Digite seu email para receber um código de recuperação.</p>
 
-@using (Html.BeginForm("RecuperarConta", "Login", FormMethod.Post))
-
-{
-    <div class="telas-inicias">
-        <h1>Recuperar Conta</h1>
-        <p>Digite seu email para receber um link de recuperação.</p>
-
+    <form id="formRecuperarConta">
         <div class="input-telas-inicias">
             <input type="email" id="email" name="email" required placeholder="Email" />
         </div>
 
+        <div id="loadingEmail" class="loading">
+            <div class="spinner"></div>
+            <div class="loading-text">Enviando código...</div>
+        </div>
+
         <div class="botoes-telas-inicias">
-            <button type="submit" id="btnEnviarEmail">Enviar email</button>
+            <button type="button" id="btnEnviarEmail">Enviar código</button>
             <a href="@Url.Action("Index", "Login")">Voltar para o login</a>
         </div>
 
         <div id="mensagemEmail" class="alert alert-info" style="display: none;"></div>
-    </div>
-}
+    </form>
+</div>

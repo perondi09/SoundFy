@@ -3,18 +3,12 @@
     ViewData["Title"] = "Login";
 }
 
-<script src="~/js/login.js"></script>
+<div class="telas-inicias">
+    <h1>Login</h1>
 
-@using (Html.BeginForm("Autenticar", "Login", FormMethod.Post))
-{
-    <div class="telas-inicias">
-
-        <h1>Login</h1>
-
-        <div class="input-telas-inicias">
-
+    <div class="input-telas-inicias">
+        <form id="formLogin">
             <input type="email" id="email" name="email" required placeholder="Email" />
-
             <input type="password" id="senha" name="senha" required placeholder="Senha" />
 
             <div class="captcha">
@@ -24,27 +18,19 @@
                 <input type="text" id="captcha" name="captcha" required maxlength="6" />
             </div>
 
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <div class="loading-text">Autenticando...</div>
+            </div>
+
+            <div id="mensagemErro" style="color: red; display: none;"></div>
+            <div id="mensagemSucesso" style="color: green; display: none;"></div>
+
             <div class="botoes-telas-inicias">
-                <button type="submit" onclick="return login()">Login</button>
+                <button type="submit">Login</button>
                 <a href="@Url.Action("Index", "Registro")">Registrar</a>
                 <a href="@Url.Action("RecuperarConta")">Esqueceu a senha</a>
             </div>
-        </div>
+        </form>
     </div>
-
-
-    @if (ViewBag.Mensagem != null)
-    {
-        <div style="color: red;">
-            <p>@ViewBag.Mensagem</p>
-        </div>
-    }
-    @if (TempData["Mensagem"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["Mensagem"]
-        </div>
-    }
-}
-
-
+</div>

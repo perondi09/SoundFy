@@ -3,17 +3,18 @@
     ViewData["Title"] = "Validação de Código";
 }
 
-<script src="~/js/validarcodigo.js"></script>
+<div class="telas-inicias">
+    <h1>Validação de Código</h1>
+    <p>Para continuar, por favor, informe o código enviado para o seu email.</p>
 
-@using (Html.BeginForm("ValidarCodigo", "Login", FormMethod.Post))
-
-{
-    <div class="telas-inicias">
-        <h1>Validação de Código</h1>
-        <p>Para continuar, por favor, informe o código enviado para o seu email.</p>
-
+    <form id="formValidarCodigo">
         <div class="input-telas-inicias">
-            <input type="text" id="codigo" name="codigo" required placeholder="Código de validação" />
+            <input type="text" id="codigo" name="codigo" required placeholder="Código de validação" maxlength="6" />
+        </div>
+
+        <div id="loadingCodigo" class="loading">
+            <div class="spinner"></div>
+            <div class="loading-text">Validando código...</div>
         </div>
 
         <div class="botoes-telas-inicias">
@@ -22,5 +23,5 @@
         </div>
 
         <div id="mensagemCodigo" class="alert alert-info" style="display: none;"></div>
-    </div>
-}
+    </form>
+</div>

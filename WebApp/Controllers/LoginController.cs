@@ -38,58 +38,67 @@ namespace SoundFy.Controllers
         [HttpPost]
         public IActionResult Autenticar(string email, string senha, string captcha)
         {
+            // Validação do captcha
             string? captchaCorreto = HttpContext.Session.GetString("CaptchaLogin");
             if (captcha != captchaCorreto)
             {
-                ViewBag.Mensagem = "Captcha incorreto.";
                 GerarCaptcha();
-                return View("Index");
+                return Json(new { sucesso = false, mensagem = "Captcha incorreto." });
             }
 
-            var tipoUsuario = usuarioBusiness.ObtemTipoUsuario(email);
-
-            if (usuarioBusiness.ValidarUsuario(email, senha))
+            // Validação das credenciais
+            if (!usuarioBusiness.ValidarUsuario(email, senha))
             {
-                try
-                {
-                    var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "IP desconhecido";
-                    var navegador = Request.Headers["User-Agent"].ToString();
-                    var corpo = UsuarioBusiness.CriarCorpoLogin(ip, navegador, DateTime.Now);
+                GerarCaptcha();
+                return Json(new { sucesso = false, mensagem = "Email ou senha inválidos." });
+            }
 
-                    emails.EnviarEmailGenerico(email, "Confirmação de Login - SoundFy", corpo);
-                }
+            // Obter tipo de usuário
+            var tipoUsuario = usuarioBusiness.ObtemTipoUsuario(email);
+            
+            if (string.IsNullOrEmpty(tipoUsuario))
+            {
+                GerarCaptcha();
+                return Json(new { sucesso = false, mensagem = "Tipo de usuário não identificado." });
+            }
 
-                catch
-                {
+            try
+            {
+                // Enviar email de confirmação
+                var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "IP desconhecido";
+                var navegador = Request.Headers["User-Agent"].ToString();
+                var corpo = UsuarioBusiness.CriarCorpoLogin(ip, navegador, DateTime.Now);
+                emails.EnviarEmailGenerico(email, "Confirmação de Login - SoundFy", corpo);
+            }
+            catch
+            {
+                // Log do erro seria ideal aqui
+            }
 
-                }
+            // Configurar sessão
+            HttpContext.Session.SetString("logado", "true");
+            HttpContext.Session.SetString("tipoUsuario", tipoUsuario);
+            HttpContext.Session.SetString("emailUsuario", email);
 
-                HttpContext.Session.SetString("logado", "true");
-                HttpContext.Session.SetString("tipoUsuario", tipoUsuario ?? "");
-
-                if (tipoUsuario == "Ouvinte")
-                {
-                    return RedirectToAction("Index", "Ouvinte");
-                }
-                else if (tipoUsuario == "Artista")
-                {
+            // Redirecionar baseado no tipo de usuário
+            switch (tipoUsuario.ToLower())
+            {
+                case "ouvinte":
+                    return Json(new { sucesso = true, redirecionar = Url.Action("Index", "Ouvinte") });
+                    
+                case "artista":
                     var usuario = usuarioBusiness.ObterUsuarioPorEmail(email);
                     if (usuario != null)
                         HttpContext.Session.SetInt32("IdArtista", usuario.Id);
-
-                    return RedirectToAction("Index", "Artista");
-                }
-                else
-                {
-                    ViewBag.Mensagem = "Tipo de usuário não reconhecido.";
+                    return Json(new { sucesso = true, redirecionar = Url.Action("Index", "Artista") });
+                    
+                case "administrador":
+                    return Json(new { sucesso = true, redirecionar = Url.Action("Index", "Dashboard") });
+                    
+                default:
                     GerarCaptcha();
-                    return View("Index", "Login");
-                }
+                    return Json(new { sucesso = false, mensagem = "Tipo de usuário inválido." });
             }
-
-            ViewBag.Mensagem = "E-mail ou senha inválidos.";
-            GerarCaptcha();
-            return View("Index", "Login");
         }
 
         //Retorno de view a pagina de recuperar senha
