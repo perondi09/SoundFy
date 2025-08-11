@@ -5,17 +5,14 @@ namespace SoundFy.Controllers
 {
     public class RegistroController : Controller
     {
-        //Criação de objetos
         UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
         EmailBusiness emails = new EmailBusiness();
 
-        // Método para retornar a view de registro
         public IActionResult Index()
         {
             return View();
         }
 
-        // Método para registrar um novo usuário
         [HttpPost]
         public IActionResult Registrar(string email, string senha, string tipo)
         {
@@ -34,7 +31,6 @@ namespace SoundFy.Controllers
             return View("Index");
         }
 
-        //Método para enviar o e-mail de confirmação
         [HttpGet]
         public IActionResult ConfirmarEmail(string email)
         {

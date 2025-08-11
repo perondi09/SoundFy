@@ -6,7 +6,7 @@ namespace Business
     public class UsuarioBusiness
     {
         UsuarioRepository usuarioRepo = new UsuarioRepository();
-        MusicaRepository musicaRepo = new MusicaRepository();
+               
         public static string CriarCorpoLogin(string ip, string navegador, DateTime dataHora)
         {
             return $@"

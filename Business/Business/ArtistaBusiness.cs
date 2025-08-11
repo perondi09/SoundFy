@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Data.Models;
 using Data.Repository;
 
@@ -16,7 +12,6 @@ namespace Business
         {
             return artistaRepo.ListarMusicasPorUsuario(usuarioId);
         }
-
         
         public bool AdicionarMusica(string titulo, string nomeArtista, string genero, int ano, string nomeArquivo, byte[] arquivo, int Usuario_Id)
         {

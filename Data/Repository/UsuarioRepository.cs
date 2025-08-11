@@ -5,16 +5,14 @@ using Microsoft.Data.Sqlite;
 namespace Data.Repository
 {
     public class UsuarioRepository
-    {
-        // Caminho do banco de dados
+    {        
         private readonly string _caminhoBanco;
 
         public UsuarioRepository()
         {
             _caminhoBanco = ConexaoBanco.ObterStringConexao();
         }
-
-        // Valida o usuário com email e senha  
+     
         public bool ValidarUsuario(string email, string senha)
         {
             using var conexao = new SqliteConnection(_caminhoBanco);
@@ -28,8 +26,7 @@ namespace Data.Repository
             using var reader = cmd.ExecuteReader();
             return reader.Read();
         }
-
-        // Verifica se o usuário já existe no banco de dados  
+         
         public bool ValidaUsuarioExistente(string email)
         {
             using var conexao = new SqliteConnection(_caminhoBanco);
@@ -42,8 +39,7 @@ namespace Data.Repository
             using var reader = cmd.ExecuteReader();
             return reader.Read();
         }
-
-        // Registra um novo usuário no banco de dados  
+         
         public bool RegistrarUsuario(string email, string senha, string tipo)
         {
             try
@@ -66,10 +62,8 @@ namespace Data.Repository
                 Console.WriteLine($"Erro geral: {ex.Message}");
                 return false;
             }
-
         }
-
-        // Obtém o tipo de usuário baseado no email  
+        
         public string? ObterTipoUsuario(string email)
         {
             using var conexao = new SqliteConnection(_caminhoBanco);
@@ -85,8 +79,7 @@ namespace Data.Repository
 
             return null;
         }
-
-        // Obtém o usuário completo baseado no email  
+       
         public UsuarioModel? ObterUsuarioPorEmail(string email)
         {
             using var conexao = new SqliteConnection(_caminhoBanco);

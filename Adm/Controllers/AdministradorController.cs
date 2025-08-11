@@ -7,8 +7,7 @@ namespace Adm.Controllers
     public class AdministradorController : Controller
     {
         AdiministradorBusiness AdmBusiness = new AdiministradorBusiness();
-
-        //Pagina inicial do administrador
+        
         public IActionResult Index()
         {
             if (HttpContext.Session.GetString("logado") != "true")
@@ -28,9 +27,8 @@ namespace Adm.Controllers
             }
 
             return View(usuariosVm);
-        }        
-
-        //Metodo para excluir um usuario
+        }       
+        
         public IActionResult Excluir(int Id)
         {
             if (HttpContext.Session.GetString("logado") != "true")

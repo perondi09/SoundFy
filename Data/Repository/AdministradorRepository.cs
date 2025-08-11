@@ -5,16 +5,14 @@ using Microsoft.Data.Sqlite;
 namespace Data.Repository
 {
     public class AdministradorRepository
-    {
-        // Caminho do banco de dados
+    {      
         private readonly string _caminhoBanco;
 
         public AdministradorRepository()
         {
             _caminhoBanco = ConexaoBanco.ObterStringConexao();
         }
-
-        //Metodo para validar administrador
+       
         public bool ValidarAdministrador(string email, string senha)
         {
             using var conexao = new SqliteConnection(_caminhoBanco);
@@ -28,8 +26,7 @@ namespace Data.Repository
             using var reader = cmd.ExecuteReader();
             return reader.Read();
         }
-
-        //Metodo para excluir usuarios
+        
         public bool ExcluirUsuario(int id)
         {
             try
@@ -49,8 +46,7 @@ namespace Data.Repository
                 throw new InvalidOperationException("Erro ao excluir usuário.", ex);
             }
         }
-
-        //Metodo para listar usuários
+        
         public List<UsuarioModel> ListarUsuarios()
         {
             var usuarios = new List<UsuarioModel>();

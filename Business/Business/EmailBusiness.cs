@@ -3,8 +3,7 @@ using System.Net.Mail;
 namespace Business
 {
     public class EmailBusiness
-    {
-        //Criar SMTP Client
+    {     
         private SmtpClient StartarServerEmail()
         {
             return new SmtpClient("localhost")
@@ -13,8 +12,7 @@ namespace Business
                 DeliveryMethod = SmtpDeliveryMethod.Network
             };
         }
-
-        //Metodo para enviar email       
+   
         public bool EnviarEmailGenerico(string destinatario, string assunto, string corpo)
         {
             try

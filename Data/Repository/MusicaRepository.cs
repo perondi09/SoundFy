@@ -5,17 +5,14 @@ using Microsoft.Data.Sqlite;
 namespace Data.Repository
 {
     public class MusicaRepository
-    {
-
-        // Caminho do banco de dados
+    {  
         private readonly string _caminhoBanco;
 
         public MusicaRepository()
         {
             _caminhoBanco = ConexaoBanco.ObterStringConexao();
         }
-
-        // Metodo para listar musicas
+    
         public List<MusicaModel> ListarMusicas()
         {
             try
@@ -51,7 +48,6 @@ namespace Data.Repository
             }
         }
 
-        // Metodo para adicionar musicas
         public bool AdicionarMusica(string titulo, string nomeArtista, string genero, int ano, string nomeArquivo, byte[] arquivo, int Usuario_Id)
         {
             try
@@ -84,8 +80,7 @@ namespace Data.Repository
                 return false;
             }
         }
-
-        //Metodo para excluir musica
+        
         public bool ExcluirMusicaPorId(int id)
         {
             try

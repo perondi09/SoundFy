@@ -5,16 +5,14 @@ using Microsoft.Data.Sqlite;
 namespace Data.Repository
 {
     public class ArtistaRepository
-    {       
-        // Caminho do banco de dados
+    {     
         private readonly string _caminhoBanco;
 
         public ArtistaRepository()
         {
             _caminhoBanco = ConexaoBanco.ObterStringConexao();
-        }
+        }        
         
-        // Método para listar músicas por usuário
         public List<MusicaModel> ListarMusicasPorUsuario(int usuarioId)
         {
             var musicas = new List<MusicaModel>();

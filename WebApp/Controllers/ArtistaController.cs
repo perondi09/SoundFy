@@ -1,17 +1,12 @@
 ﻿using Business;
-using Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.ViewModel;
 
 namespace WebApp.Controllers
 {
     public class ArtistaController : Controller
-    {
-
-        // Criação da instancia do ArtistaRepository para manipular músicas
+    {       
         ArtistaBusiness artistaBusiness = new ArtistaBusiness();
-
-        //Login com sessao
         public IActionResult Index()
         {
             if (HttpContext.Session.GetString("logado") != "true")
@@ -43,7 +38,6 @@ namespace WebApp.Controllers
             return View(musicasVm);
         }
 
-        //Pagina para adicionar musicas
         [HttpGet]
         public IActionResult AdicionarMusica()
         {
@@ -53,7 +47,6 @@ namespace WebApp.Controllers
             return View();
         }
 
-        //Metodo para adicionar musicas
         [HttpPost]
         public IActionResult AdicionarMusica(string titulo, string nomeArtista, string genero, int ano, IFormFile arquivo)
         {
@@ -92,7 +85,6 @@ namespace WebApp.Controllers
             }
         }
 
-        //Metodo para excluir musicas
         [HttpGet]
         public IActionResult ExcluirMusica(int id)
         {

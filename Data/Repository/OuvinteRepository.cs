@@ -5,15 +5,13 @@ namespace Data.Repository
 {
     public class OuvinteRepository
     {       
-        // Caminho do banco de dados
         private readonly string _caminhoBanco;
 
         public OuvinteRepository()
         {
             _caminhoBanco = ConexaoBanco.ObterStringConexao();
         }
-
-        // Método para obter os bytes de uma música pelo ID
+        
         public byte[]? ObterBytesMusicaPorId(int id)
         {
             using var conexao = new SqliteConnection( _caminhoBanco);

@@ -1,5 +1,4 @@
-﻿using Business;
-using Business.Properties;
+﻿using Business.Properties;
 using Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.ViewModel;
@@ -7,8 +6,7 @@ using WebApp.ViewModel;
 namespace WebApp.Controllers
 {
     public class OuvinteController : Controller
-    {
-        // Criação de objetos
+    {  
         OuvinteBusiness ouvinteBusiness = new OuvinteBusiness();
 
         public IActionResult Index()
@@ -39,7 +37,6 @@ namespace WebApp.Controllers
             }
         }
 
-        // Retorno de view para reproduzir uma música
         public IActionResult Reproduzir(int id)
         {
             if (HttpContext.Session.GetString("logado") != "true")
@@ -56,7 +53,6 @@ namespace WebApp.Controllers
             return View(musica);
         }
 
-        // Método para reproduzir o áudio da música 
         public FileStreamResult StreamAudio(int id)
         {
             if (HttpContext.Session.GetString("logado") != "true")

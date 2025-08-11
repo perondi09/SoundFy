@@ -4,17 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace SoundFy.Controllers
 {
     public class LoginController : Controller
-    {
-        //Criação de objetos      
+    {        
         AdiministradorBusiness adiministradorBusiness = new AdiministradorBusiness();
 
-        // Retorno de view da pagina de login
         public IActionResult Index()
         {
             return View();
         }
-
-        // Autenticação do usuario     
+  
         [HttpPost]
         public IActionResult Autenticar(string email, string senha)
         {
@@ -58,8 +55,7 @@ namespace SoundFy.Controllers
                 });
             }            
         }
-
-        // Método para deslogar o usuário
+    
         public IActionResult Deslogar()
         {
             HttpContext.Session.Clear();

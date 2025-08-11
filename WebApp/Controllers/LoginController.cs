@@ -5,13 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace SoundFy.Controllers
 {
     public class LoginController : Controller
-    {
-        //Criação de objetos
+    {      
         UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
         EmailBusiness emails = new EmailBusiness();
         AdiministradorBusiness adiministradorBusiness = new AdiministradorBusiness();
 
-        // Gera um captcha de 6 dígitos e salva na sessão
         private void GerarCaptcha()
         {
             var random = new Random();
@@ -20,21 +18,18 @@ namespace SoundFy.Controllers
             ViewBag.Captcha = captcha;
         }
 
-        // Retorno de view da pagina de login
         public IActionResult Index()
         {
             GerarCaptcha();
             return View();
         }
 
-        // Botão para atualizar o captcha
         public IActionResult AtualizarCaptcha()
         {
             GerarCaptcha();
             return RedirectToAction("Index");
         }
-
-        // Autenticação do usuario     
+  
         [HttpPost]
         public IActionResult Autenticar(string email, string senha, string captcha)
         {
@@ -101,13 +96,11 @@ namespace SoundFy.Controllers
             }
         }
 
-        //Retorno de view a pagina de recuperar senha
         public IActionResult RecuperarConta()
         {
             return View("RecuperarConta");
         }
 
-        //Validação de email para recuperar conta
         [HttpPost]
         public IActionResult RecuperarConta(string email)
         {
@@ -144,13 +137,11 @@ namespace SoundFy.Controllers
             }
         }
 
-        //Retorno de view a pagina validar codigo
         public IActionResult ValidarCodigo()
         {
             return View("ValidarCodigo");
         }
 
-        //Validação do código de recuperação
         [HttpPost]
         public JsonResult ValidarCodigo(string codigo)
         {
@@ -180,7 +171,6 @@ namespace SoundFy.Controllers
             return Json(new { ok = true, tipo = tipoUsuario });
         }
 
-        // Método para deslogar o usuário
         public IActionResult Deslogar()
         {
             HttpContext.Session.Clear();

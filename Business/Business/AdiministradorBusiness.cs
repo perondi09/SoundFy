@@ -4,9 +4,8 @@ namespace Business
 {
     public class AdiministradorBusiness
     {
-        AdministradorRepository AdmRepo = new AdministradorRepository();
-        MusicaRepository MusicaRepo = new MusicaRepository();
-
+        AdministradorRepository AdmRepo = new AdministradorRepository();      
+        
         public bool ExcluirUsuarioPeloId(int id)
         {
             return AdmRepo.ExcluirUsuario(id);
