@@ -9,14 +9,7 @@
     <div class="input-telas-inicias">
         <form id="formLogin">
             <input type="email" id="email" name="email" required placeholder="Email" />
-            <input type="password" id="senha" name="senha" required placeholder="Senha" />
-
-            <div class="captcha">
-                <label for="captcha">Digite o código:</label>
-                <span style="font-weight:bold; font-size:1.2em;">@ViewBag.Captcha</span>
-                <a href="@Url.Action("AtualizarCaptcha", "Login")" style="margin-left:10px;">Atualizar</a>
-                <input type="text" id="captcha" name="captcha" required maxlength="6" />
-            </div>
+            <input type="password" id="senha" name="senha" required placeholder="Senha" />           
 
             <div id="loading" class="loading">
                 <div class="spinner"></div>

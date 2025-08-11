@@ -1,8 +1,7 @@
 ﻿$(document).ready(function () {
     $("#formLogin").on("submit", function (e) {
-        e.preventDefault();
-        
-        // Mostrar loading
+        e.preventDefault();        
+      
         $("#mensagemErro").hide();
         $("#loading").show();
         $("#formLogin button[type='submit']").prop('disabled', true).text('Carregando...');
