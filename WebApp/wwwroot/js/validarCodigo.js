@@ -1,54 +1,55 @@
-$("#btnenviacodigo").on("click", function (e) {
-    e.preventDefault();
+$(document).ready(function () {
+    const $btnCodigo = $("#btnenviacodigo");
+    const $mensagem = $("#mensagemCodigo");
+    const $loading = $("#loadingCodigo");
 
-    $("#mensagemCodigo").hide();
-    $("#loadingCodigo").show();
-    $("#btnenviacodigo").prop('disabled', true).text('Validando...');
+    function alterarEstadoBotao(disabled, texto) {
+        $btnCodigo.prop('disabled', disabled).text(texto);
+    }
 
-    $.ajax({
-        type: "POST",
-        url: "/Login/ValidarCodigo",
-        data: {
-            codigo: $("#codigo").val()
-        },
-        success: function (resposta) {
-            $("#loadingCodigo").hide();
+    function exibirMensagem(tipo, texto) {
+        $mensagem
+            .removeClass("alert-success alert-danger")
+            .addClass(`alert-${tipo}`)
+            .text(texto)
+            .show();
+    }
 
-            if (resposta.ok) {
-                $("#mensagemCodigo")
-                    .removeClass("alert-danger")
-                    .addClass("alert-success")
-                    .text("Código validado! Redirecionando...")
-                    .show();
+    function redirecionarPorTipo(tipo) {
+        const rotas = {
+            ouvinte: "/Ouvinte/Index",
+            artista: "/Artista/Index"
+        };
+        window.location.href = rotas[tipo?.toLowerCase()] || "/Login/Index";
+    }
 
-                setTimeout(function () {
-                    switch (resposta.tipo.toLowerCase()) {
-                        case "ouvinte":
-                            window.location.href = "/Ouvinte/Index";
-                            break;
-                        case "artista":
-                            window.location.href = "/Artista/Index";                       
-                        default:
-                            window.location.href = "/Login/Index";
-                    }
-                }, 2000);
-            } else {
-                $("#mensagemCodigo")
-                    .removeClass("alert-success")
-                    .addClass("alert-danger")
-                    .text(resposta.mensagem)
-                    .show();
-                $("#btnenviacodigo").prop('disabled', false).text('Validar Código');
+    $btnCodigo.on("click", function (e) {
+        e.preventDefault();
+
+        $mensagem.hide();
+        $loading.show();
+        alterarEstadoBotao(true, 'Validando...');
+
+        $.ajax({
+            type: "POST",
+            url: "/Login/ValidarCodigo",
+            data: { codigo: $("#codigo").val() },
+            success: function (resposta) {
+                $loading.hide();
+
+                if (resposta.ok) {
+                    exibirMensagem("success", "Código validado! Redirecionando...");
+                    redirecionarPorTipo(resposta.tipo);
+                } else {
+                    exibirMensagem("danger", resposta.mensagem);
+                    alterarEstadoBotao(false, 'Validar Código');
+                }
+            },
+            error: function () {
+                $loading.hide();
+                exibirMensagem("danger", "Erro ao validar código.");
+                alterarEstadoBotao(false, 'Validar Código');
             }
-        },
-        error: function () {
-            $("#loadingCodigo").hide();
-            $("#mensagemCodigo")
-                .removeClass("alert-success")
-                .addClass("alert-danger")
-                .text("Erro ao validar código.")
-                .show();
-            $("#btnenviacodigo").prop('disabled', false).text('Validar Código');
-        }
+        });
     });
 });
