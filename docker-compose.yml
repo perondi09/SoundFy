@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+  webapp:
+    build: .
+    working_dir: /app/webapp
+    command: ["dotnet", "WebApp.dll"]
+    ports:
+      - "8080:8080"
+
+  adm:
+    build: .
+    working_dir: /app/adm
+    command: ["dotnet", "Adm.dll"]
+    ports:
+      - "8081:8080"
