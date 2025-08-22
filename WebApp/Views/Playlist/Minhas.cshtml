@@ -1,0 +1,45 @@
+@model List<WebApp.ViewModel.PlaylistViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Minhas Playlists";
+}
+
+<link rel="stylesheet" href="~/css/pages/Ouvinte/index.css" />
+
+<div class="exibicao-musicas">
+    <h3>Minhas Playlists</h3>
+    <a class="btn btn-success" href="@Url.Action("Criar", "Playlist")" style="margin-bottom: 20px;">Criar Nova Playlist</a>
+    <div class="card-grid">
+        @if (Model.Count == 0)
+        {
+            <div class="musica-card">
+                <div class="musica-info">
+                    <h4>Você ainda não possui playlists.</h4>
+                </div>
+            </div>
+        }
+        else
+        {
+            @foreach (var playlist in Model)
+            {
+                <div class="musica-card">
+                    <div class="musica-capa">
+                        <span class="material-icons" style="font-size:40px;">queue_music</span>
+                    </div>
+                    <div class="musica-info">
+                        <h4>@playlist.Nome</h4>
+                    </div>
+                    <a class="botao-reproduzir"
+                       href="@Url.Action("Detalhes", "Playlist", new { id = playlist.Id })">
+                        Ver músicas
+                    </a>
+                    <form asp-action="Excluir" asp-controller="Playlist" method="post" style="margin-top:10px;">
+                        <input type="hidden" name="id" value="@playlist.Id" />
+                        <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                    </form>
+                </div>
+            }
+        }
+    </div>
+</div>

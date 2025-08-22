@@ -1,0 +1,58 @@
+@model WebApp.ViewModel.PlaylistViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Detalhes da Playlist";
+}
+
+<link rel="stylesheet" href="~/css/pages/Ouvinte/index.css" />
+
+<div class="exibicao-musicas">
+    <h3>@Model.Nome</h3>
+    <div class="card-grid">
+        @if (Model.Musicas == null || Model.Musicas.Count == 0)
+        {
+            <div class="musica-card">
+                <div class="musica-info">
+                    <h4>Esta playlist não possui músicas.</h4>
+                </div>
+            </div>
+        }
+        else
+        {
+            @foreach (var musica in Model.Musicas)
+            {
+                <div class="musica-card">
+                    <div class="musica-capa">
+                        <span class="material-icons" style="font-size:40px;">music_note</span>
+                    </div>
+                    <div class="musica-info">
+                        <h4>@musica.Titulo</h4>
+                        <p><strong>Artista:</strong> @musica.NomeArtista</p>
+                        <p><strong>Gênero:</strong> @musica.Genero</p>
+                        <p><strong>Ano:</strong> @musica.Ano</p>
+                    </div>
+                    <form asp-action="RemoverMusica" asp-controller="Playlist" method="post" style="margin-top:10px;">
+                        <input type="hidden" name="playlistId" value="@Model.Id" />
+                        <input type="hidden" name="musicaId" value="@musica.Id" />
+                        <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                    </form>
+                </div>
+            }
+        }
+    </div>
+
+    <div class="card-grid" style="margin-top:30px;">
+        <div class="musica-card">
+            <h4>Adicionar Música à Playlist</h4>
+            <form asp-action="AdicionarMusica" asp-controller="Playlist" method="post">
+                <input type="hidden" name="playlistId" value="@Model.Id" />
+                <div class="form-group">
+                    <label for="musicaId">ID da Música:</label>
+                    <input type="number" name="musicaId" id="musicaId" class="form-control" required style="margin-bottom:10px;" />
+                </div>
+                <button type="submit" class="btn btn-success">Adicionar Música</button>
+            </form>
+        </div>
+    </div>
+</div>
