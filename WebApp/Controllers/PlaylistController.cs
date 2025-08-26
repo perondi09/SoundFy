@@ -17,8 +17,8 @@ namespace WebApp.Controllers
                 .Select(p => new PlaylistViewModel
                 {
                     Id = p.Id,
-                    Nome = p.Nome,
-                    UsuarioId = p.Usuario_Id
+                    Nome_Playlist = p.Nome_Playlist,
+                    Usuario_Id = p.Usuario_Id
                 }).ToList();
 
             return View(playlists);
@@ -58,9 +58,14 @@ namespace WebApp.Controllers
                     NomeArquivo = m.NomeArquivo
                 }).ToList();
 
+            // Buscar nome da playlist
+            var playlists = playlistBusiness.ListarPlaylistsPorUsuario(Convert.ToInt32(HttpContext.Session.GetString("usuarioId")));
+            var playlistModel = playlists.FirstOrDefault(p => p.Id == id);
             var playlist = new PlaylistViewModel
             {
                 Id = id,
+                Nome_Playlist = playlistModel?.Nome_Playlist ?? string.Empty,
+                Usuario_Id = playlistModel?.Usuario_Id ?? 0,
                 Musicas = musicas
             };
 
