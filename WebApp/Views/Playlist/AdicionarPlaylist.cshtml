@@ -1,0 +1,24 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Adicionar Playlist";
+}
+
+<link rel="stylesheet" href="~/css/pages/Artista/adicionarmusica.css" />
+
+<div class="telas-inicias">
+    <h1>Adicionar Playlist</h1>
+
+    @if (TempData["Mensagem"] != null)
+    {
+        <div class="alert alert-info">@TempData["Mensagem"]</div>
+    }
+
+    <form asp-action="AdicionarPlaylist" method="post" class="input-telas-inicias">
+        <input type="text" id="nome" name="nome" required placeholder="Nome da Playlist" />
+
+        <div class="botoes-telas-inicias">
+            <button type="submit">Adicionar</button>
+            <a href="@Url.Action("Index", "Playlist")">Voltar</a>
+        </div>
+    </form>
+</div>

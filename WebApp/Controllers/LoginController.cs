@@ -75,14 +75,16 @@ namespace SoundFy.Controllers
             HttpContext.Session.SetString("tipoUsuario", tipoUsuario);
             HttpContext.Session.SetString("emailUsuario", email);
 
-            // Redirecionar baseado no tipo de usuário
+            var usuario = usuarioBusiness.ObterUsuarioPorEmail(email);
+
             switch (tipoUsuario.ToLower())
             {
                 case "ouvinte":
+                    if (usuario != null)
+                        HttpContext.Session.SetInt32("UsuarioId", usuario.Id); // Salva o ID do ouvinte
                     return Json(new { sucesso = true, redirecionar = Url.Action("Index", "Ouvinte") });
                     
                 case "artista":
-                    var usuario = usuarioBusiness.ObterUsuarioPorEmail(email);
                     if (usuario != null)
                         HttpContext.Session.SetInt32("IdArtista", usuario.Id);
                     return Json(new { sucesso = true, redirecionar = Url.Action("Index", "Artista") });

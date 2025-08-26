@@ -11,37 +11,19 @@ namespace Business
     {
         PlaylistRepository playlistRepo = new PlaylistRepository();
 
-        public int CriarPlaylist(string nome, int usuarioId)
-        {           
-            if (string.IsNullOrWhiteSpace(nome))
-                throw new BusinessException("Nome da playlist não pode ser vazio.");
-
-            return playlistRepo.CriarPlaylist(nome, usuarioId);
+        public bool AdicionarPlaylist(string nome, int usuarioId)
+        {
+            return playlistRepo.AdicionarPlaylist(nome, usuarioId);
         }
 
-        public List<PlaylistModel> ListarPlaylistsPorUsuario(int usuarioId)
+        public bool ExcluirPlaylistPorId(int id)
         {
-            return playlistRepo.ListarPlaylistsPorOuvinte(usuarioId);
+            return playlistRepo.ExcluirPlaylistPorId(id);
         }
 
-        public bool ExcluirPlaylist(int playlistId)
+        public List<PlaylistModel> ListarPlaylist()
         {
-            return playlistRepo.ExcluirPlaylist(playlistId);
-        }
-
-        public bool AdicionarMusicaNaPlaylist(int playlistId, int musicaId)
-        {
-            return playlistRepo.AdicionarMusicaNaPlaylist(playlistId, musicaId);
-        }
-
-        public bool RemoverMusicaDaPlaylist(int playlistId, int musicaId)
-        {
-            return playlistRepo.RemoverMusicaDaPlaylist(playlistId, musicaId);
-        }       
-
-        public List<MusicaModel> ListarMusicasDaPlaylist(int playlistId)
-        {
-            return playlistRepo.ListarMusicasDaPlaylist(playlistId);
+            return playlistRepo.ListarPlaylists();
         }
     }
 }

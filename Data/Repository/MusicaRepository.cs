@@ -41,6 +41,11 @@ namespace Data.Repository
 
                 return musicas;
             }
+            catch (SqliteException ex)
+            {
+                Console.WriteLine($"Erro SQLite: {ex.Message}");
+                return new List<MusicaModel>();
+            }
             catch (Exception ex)
             {
                 Console.WriteLine($"Erro ao listar músicas: {ex.Message}");

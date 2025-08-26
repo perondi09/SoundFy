@@ -2,7 +2,6 @@ using Business;
 using Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.ViewModel;
-using System.Collections.Generic;
 
 namespace WebApp.Controllers
 {
@@ -10,87 +9,77 @@ namespace WebApp.Controllers
     {
         private readonly PlaylistBusiness playlistBusiness = new PlaylistBusiness();
 
-        public IActionResult Minhas()
+        public IActionResult Index()
         {
-            int usuarioId = Convert.ToInt32(HttpContext.Session.GetString("usuarioId"));
-            var playlists = playlistBusiness.ListarPlaylistsPorUsuario(usuarioId)
-                .Select(p => new PlaylistViewModel
-                {
-                    Id = p.Id,
-                    Nome_Playlist = p.Nome_Playlist,
-                    Usuario_Id = p.Usuario_Id
-                }).ToList();
+            if (HttpContext.Session == null || HttpContext.Session.GetString("logado") != "true")
+                return RedirectToAction("Index", "Login");
 
-            return View(playlists);
+            int? usuarioId = HttpContext.Session.GetInt32("UsuarioId");
+            if (usuarioId == null)
+                return RedirectToAction("Index", "Login");
+
+            var playlistVm = new List<PlaylistViewModel>();
+            var playlistModel = playlistBusiness.ListarPlaylist()
+                .Where(p => p.Usuario_Id == usuarioId.Value)
+                .ToList();
+
+            MapPlaylistModelParaPlaylistViewModel(playlistVm, playlistModel);
+
+            return View(playlistVm);
         }
 
-        public IActionResult Criar()
+        private void MapPlaylistModelParaPlaylistViewModel(List<PlaylistViewModel> playlistVm, List<PlaylistModel> playlistModel)
         {
+            foreach (var playlist in playlistModel)
+            {
+                playlistVm.Add(new PlaylistViewModel
+                {
+                    Id = playlist.Id,
+                    Nome_Playlist = playlist.Nome_Playlist,
+                    Usuario_Id = playlist.Usuario_Id,
+                    Musicas = playlist.Musicas.Select(m => new MusicaViewModel
+                    {
+                        Id = m.Id,
+                        Titulo = m.Titulo,
+                        NomeArtista = m.NomeArtista,
+                        Genero = m.Genero,
+                        Ano = m.Ano,
+                        NomeArquivo = m.NomeArquivo
+                    }).ToList()
+                });
+            }
+        }
+
+        [HttpGet]
+        public IActionResult AdicionarPlaylist()
+        {
+            if (HttpContext.Session.GetString("logado") != "true")
+                return RedirectToAction("Index", "Login");
+
             return View();
         }
 
         [HttpPost]
-        public IActionResult Criar(string nome)
+        public IActionResult AdicionarPlaylist(string nome)
         {
-            int usuarioId = Convert.ToInt32(HttpContext.Session.GetString("usuarioId"));
-            try
+            if (HttpContext.Session.GetString("logado") != "true")
+                return RedirectToAction("Index", "Login");
+
+            int? usuarioId = HttpContext.Session.GetInt32("UsuarioId");
+            if (usuarioId == null)
             {
-                playlistBusiness.CriarPlaylist(nome, usuarioId);
-                return RedirectToAction("Minhas");
+                TempData["Mensagem"] = "Sessão expirada. Faça login novamente.";
+                return RedirectToAction("Index", "Login");
             }
-            catch (Exception ex)
-            {
-                ViewBag.Erro = ex.Message;
-                return View();
-            }
-        }
 
-        public IActionResult Detalhes(int id)
-        {
-            var musicas = playlistBusiness.ListarMusicasDaPlaylist(id)
-                .Select(m => new MusicaViewModel
-                {
-                    Id = m.Id,
-                    Titulo = m.Titulo,
-                    NomeArtista = m.NomeArtista,
-                    Genero = m.Genero,
-                    Ano = m.Ano,
-                    NomeArquivo = m.NomeArquivo
-                }).ToList();
+            bool sucesso = playlistBusiness.AdicionarPlaylist(nome, usuarioId.Value);
 
-            // Buscar nome da playlist
-            var playlists = playlistBusiness.ListarPlaylistsPorUsuario(Convert.ToInt32(HttpContext.Session.GetString("usuarioId")));
-            var playlistModel = playlists.FirstOrDefault(p => p.Id == id);
-            var playlist = new PlaylistViewModel
-            {
-                Id = id,
-                Nome_Playlist = playlistModel?.Nome_Playlist ?? string.Empty,
-                Usuario_Id = playlistModel?.Usuario_Id ?? 0,
-                Musicas = musicas
-            };
+            if (sucesso)
+                TempData["Mensagem"] = "Playlist criada com sucesso!";
+            else
+                TempData["Mensagem"] = "Erro ao criar playlist.";
 
-            return View(playlist);
-        }
-
-        [HttpPost]
-        public IActionResult Excluir(int id)
-        {
-            playlistBusiness.ExcluirPlaylist(id);
-            return RedirectToAction("Minhas");
-        }
-
-        [HttpPost]
-        public IActionResult AdicionarMusica(int playlistId, int musicaId)
-        {
-            playlistBusiness.AdicionarMusicaNaPlaylist(playlistId, musicaId);
-            return RedirectToAction("Detalhes", new { id = playlistId });
-        }
-
-        [HttpPost]
-        public IActionResult RemoverMusica(int playlistId, int musicaId)
-        {
-            playlistBusiness.RemoverMusicaDaPlaylist(playlistId, musicaId);
-            return RedirectToAction("Detalhes", new { id = playlistId });
+            return RedirectToAction("Index");
         }
     }
 }

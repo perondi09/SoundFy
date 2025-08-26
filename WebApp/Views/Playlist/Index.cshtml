@@ -1,0 +1,29 @@
+@model List<WebApp.ViewModel.PlaylistViewModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Playlists";
+}
+
+<link rel="stylesheet" href="~/css/pages/Ouvinte/index.css" />
+
+<div class="exibicao-musicas">
+    <h3>Minhas Playlists</h3>
+    <div class="card-grid">
+        @foreach (var playlist in Model)
+        {
+            <div class="musica-card">
+                <h4>@playlist.Nome_Playlist</h4>
+                <ul>
+                    @foreach (var musica in playlist.Musicas)
+                    {
+                        <li>
+                            <strong>@musica.Titulo</strong> - @musica.NomeArtista (@musica.Genero, @musica.Ano)
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+</div>
+
+<a class="botao-reproduzir" href="@Url.Action("AdicionarPlaylist", "Playlist")">Criar playlist</a>

@@ -5,5 +5,7 @@ namespace Data.Models
         public int Id { get; set; }
         public required string Nome_Playlist { get; set; }
         public int Usuario_Id { get; set; }
+        public List<MusicaModel> Musicas { get; set; } = new List<MusicaModel>();
+
     }
 }
