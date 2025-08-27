@@ -54,8 +54,7 @@ namespace WebApp.Controllers
                 return RedirectToAction("Index", "Login");
             int? Usuario_Id = HttpContext.Session.GetInt32("IdArtista");
             if (Usuario_Id == null)
-            {
-                TempData["Mensagem"] = "Sessão expirada. Faça login novamente.";
+            {                
                 return RedirectToAction("Index", "Login");
             }
 
@@ -74,8 +73,7 @@ namespace WebApp.Controllers
                 titulo, nomeArtista, genero, ano, arquivo.FileName, arquivoBytes, Usuario_Id.Value);
 
             if (sucesso)
-            {
-                TempData["Mensagem"] = "Música adicionada com sucesso!";
+            {                
                 return RedirectToAction("Index");
             }
             else
@@ -91,13 +89,7 @@ namespace WebApp.Controllers
             if (HttpContext.Session.GetString("logado") != "true")
                 return RedirectToAction("Index", "Login");
 
-            var sucesso = artistaBusiness.ExcluirMusicaPorId(id);
-
-            if (sucesso)
-                TempData["Mensagem"] = "Música excluída com sucesso!";
-            else
-                TempData["MensagemErro"] = "Erro ao excluir música.";
-
+            var sucesso = artistaBusiness.ExcluirMusicaPorId(id);           
             return RedirectToAction("Index");
         }
 

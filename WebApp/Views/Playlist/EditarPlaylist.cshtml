@@ -1,0 +1,30 @@
+@model WebApp.ViewModel.PlaylistViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Editar Playlist";
+}
+
+<link rel="stylesheet" href="~/css/pages/Ouvinte/reproduzir.css" />
+
+<div class="reproduzir-musica">
+    <h1>@Model.Nome_Playlist</h1>  
+
+    <h3>Músicas da Playlist</h3>
+    <ul>
+        @if (Model.Musicas != null && Model.Musicas.Count > 0)
+        {
+            foreach (var musica in Model.Musicas)
+            {
+                <li>
+                    <strong>@musica.Titulo</strong> - @musica.NomeArtista (@musica.Genero, @musica.Ano)
+                </li>
+            }
+        }        
+    </ul>
+
+    <div class="botoes-telas-inicias">
+        <a href="@Url.Action("AdicionarMusicaNaPlaylist", "Playlist", new { id = Model.Id })" class="botao-voltar">Adicionar Música</a>
+        <a href="@Url.Action("Index", "Playlist")" class="botao-voltar">Voltar</a>
+    </div>
+</div>

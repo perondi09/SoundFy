@@ -96,6 +96,42 @@ namespace Data.Repository
                 Console.WriteLine($"Erro geral: {ex.Message}");
                 return new List<PlaylistModel>();
             }
-        }       
+        }   
+
+        public PlaylistModel ObterPlaylistPorId(int id)
+        {
+            try
+            {
+                using var conexao = new SqliteConnection(_caminhoBanco);
+                conexao.Open();
+
+                string selectSql = "SELECT Id, Nome_Playlist, Usuario_Id FROM Playlists WHERE Id = @Id";
+                using var cmd = new SqliteCommand(selectSql, conexao);
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                using var reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    return new PlaylistModel
+                    {
+                        Id = reader.GetInt32(0),
+                        Nome_Playlist = reader.GetString(1),
+                        Usuario_Id = reader.GetInt32(2)
+                    };
+                }
+
+                return null;
+            }
+            catch (SqliteException ex)
+            {
+                Console.WriteLine($"Erro SQLite: {ex.Message}");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro geral: {ex.Message}");
+                return null;
+            }
+        }
     }
 }

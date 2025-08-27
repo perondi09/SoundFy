@@ -1,5 +1,6 @@
 using Business;
 using Data.Models;
+using Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.ViewModel;
 
@@ -39,7 +40,6 @@ namespace WebApp.Controllers
                     Usuario_Id = playlist.Usuario_Id,
                     Musicas = playlist.Musicas.Select(m => new MusicaViewModel
                     {
-                        Id = m.Id,
                         Titulo = m.Titulo,
                         NomeArtista = m.NomeArtista,
                         Genero = m.Genero,
@@ -68,18 +68,31 @@ namespace WebApp.Controllers
             int? usuarioId = HttpContext.Session.GetInt32("UsuarioId");
             if (usuarioId == null)
             {
-                TempData["Mensagem"] = "Sessão expirada. Faça login novamente.";
                 return RedirectToAction("Index", "Login");
             }
 
             bool sucesso = playlistBusiness.AdicionarPlaylist(nome, usuarioId.Value);
-
-            if (sucesso)
-                TempData["Mensagem"] = "Playlist criada com sucesso!";
-            else
-                TempData["Mensagem"] = "Erro ao criar playlist.";
-
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult EditarPlaylist(int id)
+        {
+            if (HttpContext.Session.GetString("logado") != "true")
+                return RedirectToAction("Index", "Login");
+
+            var playlist = playlistBusiness.ObterPlaylistPorId(id);
+            if (playlist == null)
+                return NotFound();
+
+            var playlistVm = new PlaylistViewModel
+            {
+                Id = playlist.Id,
+                Nome_Playlist = playlist.Nome_Playlist,
+                Usuario_Id = playlist.Usuario_Id
+            };
+
+            return View(playlistVm);
         }
     }
 }

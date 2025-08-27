@@ -10,6 +10,7 @@ namespace Business
     public class PlaylistBusiness
     {
         PlaylistRepository playlistRepo = new PlaylistRepository();
+        MusicaRepository musicaRepo = new MusicaRepository();
 
         public bool AdicionarPlaylist(string nome, int usuarioId)
         {
@@ -25,5 +26,10 @@ namespace Business
         {
             return playlistRepo.ListarPlaylists();
         }
+
+        public PlaylistModel ObterPlaylistPorId(int id)
+        {
+            return playlistRepo.ObterPlaylistPorId(id);
+        }        
     }
 }
