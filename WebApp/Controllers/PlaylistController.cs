@@ -94,5 +94,23 @@ namespace WebApp.Controllers
 
             return View(playlistVm);
         }
-    }
+
+        public IActionResult Excluir(int Id)
+        {
+            if (HttpContext.Session.GetString("logado") != "true")
+                return RedirectToAction("Index", "Login");
+
+            playlistBusiness.ExcluirPlaylistPorId(Id);
+            return RedirectToAction("Index");
+        }
+        
+        public IActionResult AdicionarMusica(int idMusica, int idPlaylist)
+        {
+            if (HttpContext.Session.GetString("logado") != "true")
+                return RedirectToAction("Index", "Login");
+
+            playlistBusiness.AdicionarMusicaNaPlaylist(idMusica, idPlaylist);
+            return RedirectToAction("Index");
+        }
+    }    
 }

@@ -8,9 +8,15 @@
 <link rel="stylesheet" href="~/css/pages/Ouvinte/reproduzir.css" />
 
 <div class="reproduzir-musica">
-    <h1>@Model.Nome_Playlist</h1>  
+    <h1>@Model.Nome_Playlist</h1>
 
     <h3>Músicas da Playlist</h3>
+
+    <div>
+        <input type="text" id="buscar" name="buscar" class="barra-pesquisa" placeholder="Adicionar música">
+        <button id="btnBuscar" class="botao-voltar">Adicionar</button>
+    </div>
+
     <ul>
         @if (Model.Musicas != null && Model.Musicas.Count > 0)
         {
@@ -20,11 +26,11 @@
                     <strong>@musica.Titulo</strong> - @musica.NomeArtista (@musica.Genero, @musica.Ano)
                 </li>
             }
-        }        
+        }
     </ul>
 
     <div class="botoes-telas-inicias">
-        <a href="@Url.Action("AdicionarMusicaNaPlaylist", "Playlist", new { id = Model.Id })" class="botao-voltar">Adicionar Música</a>
+        <a href="@Url.Action("Excluir", "Playlist", new { id = Model.Id })" class="botao-excluir">Excluir</a>
         <a href="@Url.Action("Index", "Playlist")" class="botao-voltar">Voltar</a>
     </div>
 </div>

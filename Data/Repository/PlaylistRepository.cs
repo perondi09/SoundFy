@@ -96,7 +96,7 @@ namespace Data.Repository
                 Console.WriteLine($"Erro geral: {ex.Message}");
                 return new List<PlaylistModel>();
             }
-        }   
+        }
 
         public PlaylistModel ObterPlaylistPorId(int id)
         {
@@ -131,6 +131,33 @@ namespace Data.Repository
             {
                 Console.WriteLine($"Erro geral: {ex.Message}");
                 return null;
+            }
+        }
+        
+        public bool AdicionarMusicaNaPlaylist(int idMusica, int idPlaylist)
+        {
+            try
+            {
+                using var conexao = new SqliteConnection(_caminhoBanco);
+                conexao.Open();
+
+                string insertSql = "INSERT INTO PlaylistMusica (Playlist_Id, Musica_Id) VALUES (@Playlist_Id, @Musica_Id)";
+                using var cmd = new SqliteCommand(insertSql, conexao);
+                cmd.Parameters.AddWithValue("@Playlist_Id", idPlaylist);
+                cmd.Parameters.AddWithValue("@Musica_Id", idMusica);
+                cmd.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (SqliteException ex)
+            {
+                Console.WriteLine($"Erro SQLite: {ex.Message}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro geral: {ex.Message}");
+                return false;
             }
         }
     }

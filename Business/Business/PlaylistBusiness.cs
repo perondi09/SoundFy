@@ -30,6 +30,11 @@ namespace Business
         public PlaylistModel ObterPlaylistPorId(int id)
         {
             return playlistRepo.ObterPlaylistPorId(id);
-        }        
+        }
+
+        public bool AdicionarMusicaNaPlaylist(int idMusica, int idPlaylist)
+        {
+            return playlistRepo.AdicionarMusicaNaPlaylist(idMusica, idPlaylist);
+        }
     }
 }
