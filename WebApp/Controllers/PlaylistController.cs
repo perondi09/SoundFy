@@ -1,4 +1,5 @@
 using Business;
+using Business.Properties;
 using Data.Models;
 using Data.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ namespace WebApp.Controllers
     public class PlaylistController : Controller
     {
         private readonly PlaylistBusiness playlistBusiness = new PlaylistBusiness();
+        private readonly OuvinteBusiness ouvinteBusiness = new OuvinteBusiness();
 
         public IActionResult Index()
         {
@@ -103,14 +105,43 @@ namespace WebApp.Controllers
             playlistBusiness.ExcluirPlaylistPorId(Id);
             return RedirectToAction("Index");
         }
-        
-        public IActionResult AdicionarMusica(int idMusica, int idPlaylist)
+
+        [HttpPost]
+        public JsonResult AdicionarMusica(int idMusica, int idPlaylist)
         {
             if (HttpContext.Session.GetString("logado") != "true")
-                return RedirectToAction("Index", "Login");
+                return Json(new { sucesso = false });
 
             playlistBusiness.AdicionarMusicaNaPlaylist(idMusica, idPlaylist);
-            return RedirectToAction("Index");
+            return Json(new { sucesso = true });
         }
-    }    
+
+        [HttpGet]
+        public JsonResult BuscarMusicas(string termo)
+        {
+            var musicas = ouvinteBusiness.ListarMusicas()
+                .Where(m => string.IsNullOrEmpty(termo) || m.Titulo.Contains(termo, StringComparison.OrdinalIgnoreCase))
+                .Select(m => new { label = m.Titulo, value = m.Id })
+                .ToList();
+
+            return Json(musicas);
+        }
+
+        [HttpGet]
+        public JsonResult MusicasDaPlaylist(int idPlaylist)
+        {
+            var playlist = playlistBusiness.ObterPlaylistPorId(idPlaylist);
+            var musicas = new List<object>();
+
+            if (playlist != null && playlist.Musicas != null)
+            {
+                musicas = playlist.Musicas
+                    .Select(m => new { Titulo = m.Titulo, NomeArtista = m.NomeArtista })
+                    .ToList<object>();
+            }
+
+            return Json(musicas);
+        }
+        
+    }
 }

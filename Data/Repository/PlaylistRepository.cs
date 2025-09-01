@@ -133,7 +133,7 @@ namespace Data.Repository
                 return null;
             }
         }
-        
+
         public bool AdicionarMusicaNaPlaylist(int idMusica, int idPlaylist)
         {
             try
@@ -141,7 +141,7 @@ namespace Data.Repository
                 using var conexao = new SqliteConnection(_caminhoBanco);
                 conexao.Open();
 
-                string insertSql = "INSERT INTO PlaylistMusica (Playlist_Id, Musica_Id) VALUES (@Playlist_Id, @Musica_Id)";
+                string insertSql = "INSERT INTO PlaylistMusicas (Playlist_Id, Musica_Id) VALUES (@Playlist_Id, @Musica_Id)";
                 using var cmd = new SqliteCommand(insertSql, conexao);
                 cmd.Parameters.AddWithValue("@Playlist_Id", idPlaylist);
                 cmd.Parameters.AddWithValue("@Musica_Id", idMusica);
@@ -158,7 +158,7 @@ namespace Data.Repository
             {
                 Console.WriteLine($"Erro geral: {ex.Message}");
                 return false;
-            }
+            }          
         }
     }
 }

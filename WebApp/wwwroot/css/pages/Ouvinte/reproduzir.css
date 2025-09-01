@@ -71,3 +71,27 @@
 .botao-excluir:hover {
   background-color: #b71c1c;
 }
+
+.ui-autocomplete {
+    max-height: 200px;
+    overflow-y: auto;
+    /* Para garantir que a lista fique acima de outros elementos */
+    z-index: 1051 !important;
+    background: #fff;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.ui-menu-item {
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.ui-menu-item-wrapper {
+    padding: 4px 8px;
+}
+
+.ui-state-active, .ui-menu-item:hover {
+    background: #4caf50 !important;
+    color: #fff !important;
+}

@@ -13,8 +13,12 @@
     <h3>Músicas da Playlist</h3>
 
     <div>
-        <input type="text" id="buscar" name="buscar" class="barra-pesquisa" placeholder="Adicionar música">
-        <button id="btnBuscar" class="botao-voltar">Adicionar</button>
+        <input type="text" id="search-musica" placeholder="Buscar música..." autocomplete="off" />
+        <input type="hidden" id="musica-id" />
+        <button type="button" id="btn-adicionar-musica">Adicionar</button>
+        <input type="hidden" id="playlist-id" value="@Model.Id" />
+
+        <ul id="lista-musicas"></ul>
     </div>
 
     <ul>
