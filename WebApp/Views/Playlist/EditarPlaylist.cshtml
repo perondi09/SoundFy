@@ -13,9 +13,9 @@
     <h3>Músicas da Playlist</h3>
 
     <div>
-        <input type="text" id="search-musica" placeholder="Buscar música..." autocomplete="off" />
+        <input type="text" id="search-musica" placeholder="Buscar música..." autocomplete="off" class="barra-pesquisa"/>
         <input type="hidden" id="musica-id" />
-        <button type="button" id="btn-adicionar-musica">Adicionar</button>
+        <button href="@Url.Action("AdicionarMusica", "Playlist")" type="button" id="btn-adicionar-musica" class="botao-voltar">Adicionar</button>
         <input type="hidden" id="playlist-id" value="@Model.Id" />
 
         <ul id="lista-musicas"></ul>
