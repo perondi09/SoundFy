@@ -3,11 +3,13 @@ body {
 }
 
 .cabecalho {
-    background-color: white;   
+    background-color: white;
     display: flex;
+    border-radius: 10px;
     justify-content: space-between;
     align-items: center;
     background-color: #282828;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
     padding: 10px 20px;
 }
 
@@ -16,6 +18,7 @@ body {
     font-size: 24px;
     font-weight: bold;
     margin-left: 20px;
+    text-decoration: none;
 }
 
 .barra-pesquisa {
@@ -33,4 +36,85 @@ body {
     color: white;
     text-decoration: none;
     font-size: 16px;
+}
+
+.exibir-usuarios h1 {
+    color: #1db954;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+
+}
+
+.tabela-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #181818;
+    color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    margin-top: 30px;
+}
+
+.botao-excluir {
+    margin-top: 0;
+    background-color: #e53935;
+    color: white;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.botao-excluir:hover {
+    background-color: #b71c1c;
+}
+
+.tabela-usuarios th,
+.tabela-usuarios td {
+    padding: 12px 16px;
+    text-align: left;
+}
+
+.tabela-usuarios th {
+    background-color: 282828;
+    color: #1db954;
+    font-size: 16px;
+    border-bottom: 2px solid #1db954;
+}
+
+.dashboard {
+    margin-top: 40px;
+    color: #1db954;
+}
+
+.dashboard h2 {
+    margin-bottom: 20px;
+}
+
+.barra {
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 20px;
+    margin-bottom: 15px;
+}
+
+.barra-preenchida {
+    background-color: #4caf50;
+    height: 100%;
+    color: white;
+    padding-left: 10px;
+    line-height: 20px;
+    white-space: nowrap;
+}
+
+.label {
+    margin-bottom: 5px;
+    font-weight: bold;
 }

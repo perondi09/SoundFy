@@ -8,6 +8,7 @@ namespace Adm.Controllers
     {
         AdiministradorBusiness AdmBusiness = new AdiministradorBusiness();
         
+        [Route("/Home")]
         public IActionResult Index()
         {
             if (HttpContext.Session.GetString("logado") != "true")

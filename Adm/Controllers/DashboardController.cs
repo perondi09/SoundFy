@@ -8,6 +8,7 @@ namespace Adm.Controllers
     {
         OuvinteBusiness ouvinteBusiness = new OuvinteBusiness();
 
+        [Route("/Dashboard")]
         public IActionResult Dashboard()
         {
             if (HttpContext.Session.GetString("logado") != "true")

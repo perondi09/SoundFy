@@ -5,9 +5,11 @@ body {
 .cabecalho {
     background-color: white;   
     display: flex;
+    border-radius: 10px;
     justify-content: space-between;
     align-items: center;
     background-color: #282828;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
     padding: 10px 20px;
 }
 
