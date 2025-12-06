@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Busine
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adm", "Adm\Adm.csproj", "{09822CBE-15F9-4F8B-8BE2-94B340C745A1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - User interface", "0 - User interface", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Data", "1 - Data", "{A74A62AC-FADF-47F6-AE72-503425AB487A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Business", "2 - Business", "{1E0EB319-7BC7-4923-8ADD-A922E39475DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +78,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9D5BD79E-3CDA-4000-7A14-B8AD17938B1D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{01674680-51DD-47A3-A0CF-131D7B22A89E} = {A74A62AC-FADF-47F6-AE72-503425AB487A}
+		{9D8349EE-9BDB-41B6-8A8F-F4A94D8B6193} = {1E0EB319-7BC7-4923-8ADD-A922E39475DC}
+		{09822CBE-15F9-4F8B-8BE2-94B340C745A1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {48579D93-E6AF-490B-9BA3-AC98ECD3DEA5}
