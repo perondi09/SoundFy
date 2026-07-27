@@ -1,0 +1,15 @@
+info:
+  name: DELETE musica in playlist
+  type: http
+  seq: 7
+
+http:
+  method: DELETE
+  url: http://localhost:8080/api/playlists/e7cf35b8-8435-497d-a131-eec41599d144/songs/40ab90ab-a89f-47e1-a606-c9b9fcc63ea4
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

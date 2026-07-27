@@ -1,0 +1,27 @@
+info:
+  name: POST musicas
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: http://localhost:8080/api/songs
+  body:
+    type: json
+    data: |-
+      {
+          "title": "Time",
+          "durationSeconds": 413,
+          "trackNumber": 4,
+          "filePath": "/storage/mp3/time.mp3",
+          "fileSizeBytes": 9834112,
+          "contentType": "audio/mpeg",
+          "albumId": "ebdf4cbb-8d7f-4716-aa66-1f2de276d035"
+        }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,21 @@
+info:
+  name: POST add musica in playlist
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: http://localhost:8080/api/playlists/e7cf35b8-8435-497d-a131-eec41599d144/songs
+  body:
+    type: json
+    data: |-
+      {
+        "songId": "40ab90ab-a89f-47e1-a606-c9b9fcc63ea4"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

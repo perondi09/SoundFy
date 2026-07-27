@@ -1,0 +1,15 @@
+info:
+  name: PUT musica
+  type: http
+  seq: 6
+
+http:
+  method: PUT
+  url: http://localhost:8080/api/songs/40ab90ab-a89f-47e1-a606-c9b9fcc63ea4
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

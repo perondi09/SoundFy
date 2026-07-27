@@ -1,0 +1,22 @@
+info:
+  name: POST playlist
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: http://localhost:8080/api/playlists
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Foco pra estudar", 
+        "description": "Rock progressivo"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

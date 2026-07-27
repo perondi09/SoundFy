@@ -1,0 +1,15 @@
+info:
+  name: GET album songs
+  type: http
+  seq: 6
+
+http:
+  method: GET
+  url: http://localhost:8080/api/albums/ebdf4cbb-8d7f-4716-aa66-1f2de276d035/songs
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

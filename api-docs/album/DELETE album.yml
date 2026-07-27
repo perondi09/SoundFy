@@ -1,0 +1,15 @@
+info:
+  name: DELETE album
+  type: http
+  seq: 4
+
+http:
+  method: DELETE
+  url: http://localhost:8080/api/albums/ebdf4cbb-8d7f-4716-aa66-1f2de276d035
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
